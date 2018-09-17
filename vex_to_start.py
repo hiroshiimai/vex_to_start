@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import datetime
 import sys
+import os
 
 #------------------------------------------#
 # default parameter
@@ -473,10 +474,10 @@ start_file.write("\n")
 #  write OBSTABLE
 #-------------------------------------------------#
 start_file.write("#-------- OBSTABLE Information Table --------\n")
-start_file.write("% OBSERVER=q7014sk\n")
-start_file.write("% GROUP=q7014sk\n")
+start_file.write("% OBSERVER=" + os.getlogin() + "\n")
+start_file.write("% GROUP=" + os.getlogin() + "\n")
 start_file.write("% PROJECT=vlbi\n")
-start_file.write("% OBS_NAME=" + Observation_Name + "\n")
+start_file.write("% OBS_NAME=" + Observation_Name.rstrip(";") + "\n")
 start_file.write("% MMC_CMD1=MCL\n")
 start_file.write("% MMC_CMD2=MOP\n")
 start_file.write("% MMC_CMD3=\n")
@@ -730,7 +731,5 @@ print Create_Date
 print "ANTENNA NAME           : " + Station_Name
 print ".VEX FILE NAME         : " + vex_file_name
 print ".START FILE NAME       : " + start_file_name
-
-
 
 
