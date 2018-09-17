@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding:utf-8 -*-
 import datetime
+import sys
 
 #------------------------------------------#
 # default parameter
@@ -57,8 +58,9 @@ def str_time_to_time(str_time):
 	return time_list
 
 
-
-param_data = open("param.txt", "r")
+args = sys.argv
+#param_data = open("param.txt", "r")
+param_data = open(args[1], "r")
 data_list = param_data.readlines()
 for data in data_list:
 	if "#" != data[0]:
