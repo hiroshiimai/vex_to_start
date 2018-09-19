@@ -66,7 +66,8 @@ data_list = param_data.readlines()
 for data in data_list:
 	if "#" != data[0]:
 		if "USER_NAME" == data.strip()[0:9]:
-			USER_NAME = data.split('=')[1][:-1]
+			# USER_NAME = data.split('=')[1][:-1]
+			USER_NAME = data.split('=')[1].split()[0]
 		if "Station_Name" == data.strip()[0:12]:
 			Station_Name = data.split('=')[1].split()[0]
 		if "start_time_flag" == data.strip()[0:15]:
