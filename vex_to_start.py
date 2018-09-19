@@ -9,6 +9,8 @@ import os
 #------------------------------------------#
 #---------- User name ----------#
 USER_NAME = "hogehoge"
+#---------- Project name ----------#
+PROJECT_NAME = "vlbi"
 
 #---------- Create Date ----------#
 Create_Date = datetime.datetime.today()
@@ -68,6 +70,8 @@ for data in data_list:
 		if "USER_NAME" == data.strip()[0:9]:
 			# USER_NAME = data.split('=')[1][:-1]
 			USER_NAME = data.split('=')[1].split()[0]
+		if "PROJECT_NAME" == data.strip()[0:12]:
+                        PROJECT_NAME = data.split('=')[1].split()[0]
 		if "Station_Name" == data.strip()[0:12]:
 			Station_Name = data.split('=')[1].split()[0]
 		if "start_time_flag" == data.strip()[0:15]:
@@ -476,8 +480,10 @@ start_file.write("\n")
 #-------------------------------------------------#
 start_file.write("#-------- OBSTABLE Information Table --------\n")
 start_file.write("% OBSERVER=" + os.getlogin() + "\n")
-start_file.write("% GROUP=" + os.getlogin() + "\n")
-start_file.write("% PROJECT=vlbi\n")
+#start_file.write("% GROUP=" + os.getlogin() + "\n")
+start_file.write("% GROUP=" + USER_NAME + "\n")
+#start_file.write("% PROJECT=vlbi\n")
+start_file.write("% PROJECT=" + PROJECT_NAME + "\n")
 start_file.write("% OBS_NAME=" + Observation_Name.rstrip(";") + "\n")
 start_file.write("% MMC_CMD1=MCL\n")
 start_file.write("% MMC_CMD2=MOP\n")
