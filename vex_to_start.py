@@ -9,6 +9,8 @@ import os
 #------------------------------------------#
 #---------- User name ----------#
 USER_NAME = "hogehoge"
+#---------- Project name ----------#
+PROJECT_NAME = "vlbi"
 
 #---------- Create Date ----------#
 Create_Date = datetime.datetime.today()
@@ -66,7 +68,10 @@ data_list = param_data.readlines()
 for data in data_list:
 	if "#" != data[0]:
 		if "USER_NAME" == data.strip()[0:9]:
-			USER_NAME = data.split('=')[1][:-1]
+			# USER_NAME = data.split('=')[1][:-1]
+			USER_NAME = data.split('=')[1].split()[0]
+		if "PROJECT_NAME" == data.strip()[0:12]:
+                        PROJECT_NAME = data.split('=')[1].split()[0]
 		if "Station_Name" == data.strip()[0:12]:
 			Station_Name = data.split('=')[1].split()[0]
 		if "start_time_flag" == data.strip()[0:15]:
@@ -212,13 +217,13 @@ for i in range(len(SOURCE_Start_index)):
 			SOURCE_LIST[i].append(''.join(data.split())[12:])
 			#print ''.join(data.split()).strip('source_name=')
 		if "ra=" in ''.join(data.split()):
-			SOURCE_LIST[i].append(''.join(data.split()).strip('ra='))
+			SOURCE_LIST[i].append(''.join(data.split())[3:])
 			#print ''.join(data.split()).strip('ra=')
 		if "dec=" in ''.join(data.split()):
-			SOURCE_LIST[i].append(''.join(data.split()).strip('dec='))
+			SOURCE_LIST[i].append(''.join(data.split())[4:])
 			#print ''.join(data.split()).strip('ra=')
 		if "ref_coord_frame=" in ''.join(data.split()):
-			SOURCE_LIST[i].append(''.join(data.split()).strip('ref_coord_frame='))
+			SOURCE_LIST[i].append(''.join(data.split())[16:])
 
 
 
@@ -259,10 +264,8 @@ for data in data_list:
 		STATION_INDEX_START = data_list.index(data)
 		STATION_INDEX_END = title_index[title_index.index(STATION_INDEX_START)+1]
 #print STATION_INDEX_START, STATION_INDEX_END
-
 STATION_DATA = data_list[STATION_INDEX_START+1:STATION_INDEX_END]
 #print STATION_DATA
-
 count = 0
 STATION_index = []
 for data in STATION_DATA:
@@ -270,9 +273,6 @@ for data in STATION_DATA:
 		STATION_index.append(count)
 	count += 1
 STATION_index.sort()
-
-
-
 STATION_LIST = []
 for i in range(len(STATION_index)-1):
 	tmpSTATION = STATION_DATA[STATION_index[i]:STATION_index[i+1]]
@@ -287,7 +287,6 @@ for i in range(len(STATION_index)-1):
 		if "$DAS" in data.split():
 			#print data.split()[-1][:-1]
 			pass
-
 """
 #-------------------------------------------------#
 #  SCHED
@@ -332,10 +331,10 @@ for i in range(len(SCHED_Start_index)):
 	for data in tmpSCHED:
 		if "start=" in ''.join(data.split()):
 			SCHED_LIST.append([])
-			SCHED_LIST[i].append(''.join(data.split()).strip('start='))
+			SCHED_LIST[i].append(''.join(data.split())[6:])
 			#print ''.join(data.split()).strip('start=')
 		if "mode=" in ''.join(data.split()):
-			SCHED_LIST[i].append(''.join(data.split()).strip('mode='))
+			SCHED_LIST[i].append(''.join(data.split())[5:])
 			#print ''.join(data.split()).strip('mode=')
 		if "source=" in ''.join(data.split()):
 			SCHED_LIST[i].append(''.join(data.split())[7:])
@@ -475,8 +474,10 @@ start_file.write("\n")
 #-------------------------------------------------#
 start_file.write("#-------- OBSTABLE Information Table --------\n")
 start_file.write("% OBSERVER=" + os.getlogin() + "\n")
-start_file.write("% GROUP=" + os.getlogin() + "\n")
-start_file.write("% PROJECT=vlbi\n")
+#start_file.write("% GROUP=" + os.getlogin() + "\n")
+start_file.write("% GROUP=" + USER_NAME + "\n")
+#start_file.write("% PROJECT=vlbi\n")
+start_file.write("% PROJECT=" + PROJECT_NAME + "\n")
 start_file.write("% OBS_NAME=" + Observation_Name.rstrip(";") + "\n")
 start_file.write("% MMC_CMD1=MCL\n")
 start_file.write("% MMC_CMD2=MOP\n")
@@ -731,5 +732,3 @@ print Create_Date
 print "ANTENNA NAME           : " + Station_Name
 print ".VEX FILE NAME         : " + vex_file_name
 print ".START FILE NAME       : " + start_file_name
-
-

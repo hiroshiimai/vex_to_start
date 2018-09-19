@@ -3,7 +3,7 @@
 #------------------------------------------#
 
 #---------- User name ----------#
-USER_NAME = H. Imai
+USER_NAME = H.Imai
 #USER_NAME = hogehoge
 
 
