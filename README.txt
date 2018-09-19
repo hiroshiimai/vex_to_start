@@ -17,11 +17,14 @@ $python vex_to_start.py
 2. param.txtの書き方
 基本的に全てのパラメータは "hogehoge = "の先に記述する。=の先には""は必要ない。
 
-・USER_NAME = hogehoge
-→ ユーザー名を"hogehoge"にする。
+・USER_NAME = vlbi3bz
+→ 観測プログラムに割り当てられた ユーザー ID = group ID
 
-・Station_Name = Vm
-→ .vexファイルから参照するアンテナを"Vm"にする
+・PROJECT_NAME = proj5
+→ 観測セッションに割り当てられたコード = project
+
+・Station_Name = Nb
+→ .vexファイルから参照するアンテナを"Nb"(野辺山45m鏡)にする
 
 ・start_time_flag =
 → 希望の観測開始時間を選択することができる。
