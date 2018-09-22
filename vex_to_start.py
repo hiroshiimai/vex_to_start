@@ -73,11 +73,14 @@ def time_plus_or_minus(str_time1, str_time2):
 	#porm = ye + mo + da + ho + mi +se
 
 	if porm >= 0:
+		return 1
+		"""
 		ptmp = 3600*ho + 60*mi +se
 		if ptmp > 0:
 			return 1
 		else:
 			return -1
+		"""
 	else:
 		return -1
 
@@ -575,6 +578,7 @@ for scan in range(len(SCHED_Start_index)):
 		start_offset_time = str_time_to_time(offset_time)
 		start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
 		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
+		end_offset_time = end_offset_time + datetime.timedelta(seconds=time_of_second_move)
 
 
 
@@ -593,8 +597,7 @@ for scan in range(len(SCHED_Start_index)):
 			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation+WAIT_MMC_TIME+after_mmc)
 		else:
 			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation)
-		if scan != 0:
-			OBSERVATION_BEFORE_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=time_of_second_move)
+
 
 
 		#時間のERROR判定
@@ -606,8 +609,6 @@ for scan in range(len(SCHED_Start_index)):
 			else:
 				OBSERVATION_BEFORE_TIME = start_offset_time
 
-			if scan != 0:
-				OBSERVATION_BEFORE_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=time_of_second_move)
 
 
 			if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
@@ -626,7 +627,7 @@ for scan in range(len(SCHED_Start_index)):
 
 
 		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
-		end_offset_time = start_offset_time + datetime.timedelta(seconds=after_mmc + WAIT_MMC_TIME + end_sec)
+		end_offset_time = start_offset_time + datetime.timedelta(seconds=end_sec)
 
 
 		#ファイルに書き込み部
