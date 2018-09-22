@@ -19,12 +19,12 @@ Station_Name = Vm
 
 #---------- set start observation time ----------#
 #---------- .vexファイルに従う場合に使用 ----------#
-#start_time_flag = original_start
+start_time_flag = original_start
 #---------- 任意の時間で観測を開始する場合に使用 ----------#
 #start_time_flag = any_start
 #any_time = 2016y136d14h12m00s
 #---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
-start_time_flag = after_start
+#start_time_flag = after_start
 after_day = 0
 after_hour = 0
 after_minute = 0
@@ -54,7 +54,7 @@ start_file_name = sample.start
 
 #----------- time of antenna ---------#
 #----------- MMCの一連の流れの後に何秒待つかを決める ----------#
-after_mmc = 10
+after_mmc = 0
 #----------- 観測を何秒前から行うかを決める ----------#
 before_observation = 30
 #----------- 2SCAN目以降にアンテナを動かす時間 ----------#

@@ -61,6 +61,27 @@ def str_time_to_time(str_time):
 	return time_list
 
 
+def time_plus_or_minus(str_time1, str_time2):
+	ye = (int(str_time1.year) - int(str_time2.year))
+	mo = (int(str_time1.month) - int(str_time2.month))
+	da = (int(str_time1.day) - int(str_time2.day))
+	ho = (int(str_time1.hour) - int(str_time2.hour))
+	mi = (int(str_time1.minute) - int(str_time2.minute))
+	se = (int(str_time1.second) - int(str_time2.second))
+	porm = int((str_time1-str_time2).days)
+
+	#porm = ye + mo + da + ho + mi +se
+
+	if porm >= 0:
+		ptmp = 3600*ho + 60*mi +se
+		if ptmp > 0:
+			return 1
+		else:
+			return -1
+	else:
+		return -1
+
+
 args = sys.argv
 #param_data = open("param.txt", "r")
 param_data = open(args[1], "r")
@@ -449,6 +470,12 @@ for i in range(len(PROCEDURES_Start_index)):
 #-------------------------------------------------#
 #  書き出す部分
 #-------------------------------------------------#
+offset_time = SCHED_LIST[0][0]
+start_offset_time = str_time_to_time(offset_time)
+start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
+end_offset_time = start_offset_time - datetime.timedelta(seconds=1000)
+
+
 if start_file_flag == "file_date":
 	start_file_name = Observation_Name[:-1] + "_" + Station_Name + "_" + str(Create_Date.year)[2:] + "%02d%02d%02d%02d%02d.start" %(int(str(Create_Date.month)), int(str(Create_Date.day)), int(str(Create_Date.hour)), int(str(Create_Date.minute)), int(str(Create_Date.second)))
 else:
@@ -550,6 +577,7 @@ for scan in range(len(SCHED_Start_index)):
 		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
 
 
+
 		WAIT_MMC_TIME = 0
 		#print MODE_LIST
 		for m in MODE_LIST:
@@ -560,17 +588,45 @@ for scan in range(len(SCHED_Start_index)):
 
 
 
-		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
-		end_offset_time = start_offset_time + datetime.timedelta(seconds=end_sec)
-
+		#observation start time
 		if WAIT_MMC_TIME > 0:
-			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=after_mmc+before_observation+WAIT_MMC_TIME)
+			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation+WAIT_MMC_TIME+after_mmc)
 		else:
 			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation)
+		if scan != 0:
+			OBSERVATION_BEFORE_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=time_of_second_move)
+
+
+		#時間のERROR判定
+		if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
+			pass
+		else:
+			if WAIT_MMC_TIME > 0:
+				OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=WAIT_MMC_TIME+after_mmc)
+			else:
+				OBSERVATION_BEFORE_TIME = start_offset_time
+
+			if scan != 0:
+				OBSERVATION_BEFORE_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=time_of_second_move)
+
+
+			if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
+				pass
+			else:
+				print "#############################"
+				print "######## TIME ERR0R #########"
+				print "# between scan%d and scan%d #" %(scan, scan+1)
+				print "#############################"
+				sys.exit()
+
 
 
 		if scan == 0:
 			CULLENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+
+
+		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
+		end_offset_time = start_offset_time + datetime.timedelta(seconds=after_mmc + WAIT_MMC_TIME + end_sec)
 
 
 		#ファイルに書き込み部
