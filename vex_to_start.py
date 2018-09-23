@@ -50,8 +50,12 @@ after_mmc = 10
 before_observation = 30
 time_of_second_move = 20
 
-#-------------------------------------------#
 
+#----------- ERROR MODE ---------#
+#error_flag = "skip_flag"
+error_flag = "stop_flag"
+
+#-------------------------------------------#
 
 
 def str_time_to_time(str_time):
@@ -122,6 +126,8 @@ for data in data_list:
 			start_file_flag  = data.split('=')[1].split()[0]
 		if "start_file_name" == data.strip()[0:15]:
 			start_file_name  = data.split('=')[1].split()[0]
+		if "error_flag" == data.strip()[0:10]:
+			error_flag  = data.split('=')[1].split()[0]
 			print start_file_name
 	else:
 		pass
@@ -537,34 +543,7 @@ start_file.write("\n")
 
 #SCHEDの名前からSOURCEを探索
 for scan in range(len(SCHED_Start_index)):
-	SOURCE_NAME_SAMPLE = SCHED_LIST[scan][2]
-	start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
-	start_file.write("EXECUTE MMC CMD(AOF)\n")
-	start_file.write("EXECUTE MMC CMD(OPN)\n")
-	start_file.write("SET ANT TRK_TYPE \'RADEC\'\n")
 
-	SOURCE_NUMBER = 0
-	for i in range(len(SOURCE_LIST)):
-		if SOURCE_NAME_SAMPLE == SOURCE_LIST[i][0]:
-			SOURCE_NUMBER = i
-	#print SOURCE_NAME_SAMPLE, ":", SOURCE_LIST[SOURCE_NUMBER][0]
-
-
-	right_ascension = float(SOURCE_LIST[SOURCE_NUMBER][1][0:2]) * 15 + float(SOURCE_LIST[SOURCE_NUMBER][1][3:5]) * (15/60.0) + float(SOURCE_LIST[SOURCE_NUMBER][1][6:8]) * (15/3600.0) + 0.01 * float(SOURCE_LIST[SOURCE_NUMBER][1][9:11]) * (15/3600.0)
-
-	if SOURCE_LIST[SOURCE_NUMBER][2][0] == "+" or SOURCE_LIST[SOURCE_NUMBER][2][0] == "-":
-		declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:3]) + float(SOURCE_LIST[SOURCE_NUMBER][2][4:6]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][7:11]) / 3600.0
-	else:
-		declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
-
-	#ファイル書き込み部
-	start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
-	start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
-	start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
-	start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
-	start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
-	start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
-	start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
 
@@ -614,11 +593,25 @@ for scan in range(len(SCHED_Start_index)):
 			if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
 				pass
 			else:
-				print "#############################"
-				print "######## TIME ERR0R #########"
-				print "# between scan%d and scan%d #" %(scan, scan+1)
-				print "#############################"
-				sys.exit()
+				if error_flag == "skip_flag":
+					print "#############################"
+					print "######## TIME ERR0R #########"
+					print "#        scan%d SKIP        #" %(scan+1)
+					print "#############################"
+
+					start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+					start_file.write("#-------- TIME ERROR --------\n")
+					start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+					continue
+
+				else:
+					print "#############################"
+					print "######## TIME ERR0R #########"
+					print "#        scan%d STOP        #" %(scan+1)
+					print "#############################"
+					sys.exit()
+
+
 
 
 
@@ -631,6 +624,36 @@ for scan in range(len(SCHED_Start_index)):
 
 
 		#ファイルに書き込み部
+		SOURCE_NAME_SAMPLE = SCHED_LIST[scan][2]
+		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+		start_file.write("EXECUTE MMC CMD(AOF)\n")
+		start_file.write("EXECUTE MMC CMD(OPN)\n")
+		start_file.write("SET ANT TRK_TYPE \'RADEC\'\n")
+
+		SOURCE_NUMBER = 0
+		for i in range(len(SOURCE_LIST)):
+			if SOURCE_NAME_SAMPLE == SOURCE_LIST[i][0]:
+				SOURCE_NUMBER = i
+		#print SOURCE_NAME_SAMPLE, ":", SOURCE_LIST[SOURCE_NUMBER][0]
+
+
+		right_ascension = float(SOURCE_LIST[SOURCE_NUMBER][1][0:2]) * 15 + float(SOURCE_LIST[SOURCE_NUMBER][1][3:5]) * (15/60.0) + float(SOURCE_LIST[SOURCE_NUMBER][1][6:8]) * (15/3600.0) + 0.01 * float(SOURCE_LIST[SOURCE_NUMBER][1][9:11]) * (15/3600.0)
+
+		if SOURCE_LIST[SOURCE_NUMBER][2][0] == "+" or SOURCE_LIST[SOURCE_NUMBER][2][0] == "-":
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:3]) + float(SOURCE_LIST[SOURCE_NUMBER][2][4:6]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][7:11]) / 3600.0
+		else:
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
+
+		#ファイル書き込み部
+		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
+		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
+		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
+		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
+		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
+
+
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
 		CULLENT_TIME = OBSERVATION_BEFORE_TIME
@@ -697,6 +720,34 @@ for scan in range(len(SCHED_Start_index)):
 			OBSERVATION_BEFORE_TIME = CULLENT_TIME + datetime.timedelta(seconds=time_of_second_move)
 
 
+		SOURCE_NAME_SAMPLE = SCHED_LIST[scan][2]
+		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+		start_file.write("EXECUTE MMC CMD(AOF)\n")
+		start_file.write("EXECUTE MMC CMD(OPN)\n")
+		start_file.write("SET ANT TRK_TYPE \'RADEC\'\n")
+
+		SOURCE_NUMBER = 0
+		for i in range(len(SOURCE_LIST)):
+			if SOURCE_NAME_SAMPLE == SOURCE_LIST[i][0]:
+				SOURCE_NUMBER = i
+		#print SOURCE_NAME_SAMPLE, ":", SOURCE_LIST[SOURCE_NUMBER][0]
+
+
+		right_ascension = float(SOURCE_LIST[SOURCE_NUMBER][1][0:2]) * 15 + float(SOURCE_LIST[SOURCE_NUMBER][1][3:5]) * (15/60.0) + float(SOURCE_LIST[SOURCE_NUMBER][1][6:8]) * (15/3600.0) + 0.01 * float(SOURCE_LIST[SOURCE_NUMBER][1][9:11]) * (15/3600.0)
+
+		if SOURCE_LIST[SOURCE_NUMBER][2][0] == "+" or SOURCE_LIST[SOURCE_NUMBER][2][0] == "-":
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:3]) + float(SOURCE_LIST[SOURCE_NUMBER][2][4:6]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][7:11]) / 3600.0
+		else:
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
+
+		#ファイル書き込み部
+		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
+		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
+		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
+		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
+		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 		#ファイルに書き込み部
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
@@ -749,6 +800,34 @@ for scan in range(len(SCHED_Start_index)):
 			OBSERVATION_BEFORE_TIME = CULLENT_TIME + datetime.timedelta(seconds=time_of_second_move)
 
 
+		SOURCE_NAME_SAMPLE = SCHED_LIST[scan][2]
+		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+		start_file.write("EXECUTE MMC CMD(AOF)\n")
+		start_file.write("EXECUTE MMC CMD(OPN)\n")
+		start_file.write("SET ANT TRK_TYPE \'RADEC\'\n")
+
+		SOURCE_NUMBER = 0
+		for i in range(len(SOURCE_LIST)):
+			if SOURCE_NAME_SAMPLE == SOURCE_LIST[i][0]:
+				SOURCE_NUMBER = i
+		#print SOURCE_NAME_SAMPLE, ":", SOURCE_LIST[SOURCE_NUMBER][0]
+
+
+		right_ascension = float(SOURCE_LIST[SOURCE_NUMBER][1][0:2]) * 15 + float(SOURCE_LIST[SOURCE_NUMBER][1][3:5]) * (15/60.0) + float(SOURCE_LIST[SOURCE_NUMBER][1][6:8]) * (15/3600.0) + 0.01 * float(SOURCE_LIST[SOURCE_NUMBER][1][9:11]) * (15/3600.0)
+
+		if SOURCE_LIST[SOURCE_NUMBER][2][0] == "+" or SOURCE_LIST[SOURCE_NUMBER][2][0] == "-":
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:3]) + float(SOURCE_LIST[SOURCE_NUMBER][2][4:6]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][7:11]) / 3600.0
+		else:
+			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
+
+		#ファイル書き込み部
+		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
+		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
+		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
+		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
+		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 		#ファイルに書き込み部
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
