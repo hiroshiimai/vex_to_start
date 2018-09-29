@@ -687,11 +687,23 @@ for scan in range(len(SCHED_Start_index)):
 	#---------- any time ----------#
 	#------------------------------#
 	if start_time_flag == "any_start":
-		if scan == 0:
-			start_offset_time = str_time_to_time(any_time)
-			start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
+		start_offset_time = str_time_to_time(any_time)
+		start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
+		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
+		critetia_time = start_offset_time
 
-			CULLENT_TIME = start_offset_time
+
+		offset_time = SCHED_LIST[scan][0]
+		start_offset_time = str_time_to_time(offset_time)
+		start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
+		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
+		end_offset_time = end_offset_time + datetime.timedelta(seconds=time_of_second_move)
+
+		counter = 0
+		if time_plus_or_minus(critetia_time, start_offset_time) > 0:
+			continue
+		else:
+			counter += 1
 
 		WAIT_MMC_TIME = 0
 		#print MODE_LIST
@@ -701,25 +713,61 @@ for scan in range(len(SCHED_Start_index)):
 					if m[1] == p[0]:
 						WAIT_MMC_TIME = int(p[1])
 
-		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
 
-		'''
+
+		#observation start time
 		if WAIT_MMC_TIME > 0:
-			end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+after_mmc+before_observation+WAIT_MMC_TIME)
+			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation+WAIT_MMC_TIME+after_mmc)
 		else:
-			end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+before_observation)
-		'''
+			OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=before_observation)
 
 
 
-		if scan == 0:
-			OBSERVATION_BEFORE_TIME = CULLENT_TIME + datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
-			#end_offset_time = end_offset_time + datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+		#時間のERROR判定
+		if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
+			pass
 		else:
-			#もしかしたらパラメタにしたほうがいいかも
-			OBSERVATION_BEFORE_TIME = CULLENT_TIME + datetime.timedelta(seconds=time_of_second_move)
+			if WAIT_MMC_TIME > 0:
+				OBSERVATION_BEFORE_TIME = start_offset_time - datetime.timedelta(seconds=WAIT_MMC_TIME+after_mmc)
+			else:
+				OBSERVATION_BEFORE_TIME = start_offset_time
 
 
+
+			if (time_plus_or_minus(OBSERVATION_BEFORE_TIME, end_offset_time) > 0):
+				pass
+			else:
+				if error_flag == "skip_flag":
+					print "#############################"
+					print "######## TIME ERR0R #########"
+					print "#        scan%d SKIP        #" %(scan+1)
+					print "#############################"
+
+					start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+					start_file.write("#-------- TIME ERROR --------\n")
+					start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+					continue
+
+				else:
+					print "#############################"
+					print "######## TIME ERR0R #########"
+					print "#        scan%d STOP        #" %(scan+1)
+					print "#############################"
+					sys.exit()
+
+
+
+
+
+		if counter == 1:
+			CULLENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+
+
+		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
+		end_offset_time = start_offset_time + datetime.timedelta(seconds=end_sec)
+
+
+		#ファイルに書き込み部
 		SOURCE_NAME_SAMPLE = SCHED_LIST[scan][2]
 		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
 		start_file.write("EXECUTE MMC CMD(AOF)\n")
@@ -748,7 +796,8 @@ for scan in range(len(SCHED_Start_index)):
 		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
 		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
 		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
-		#ファイルに書き込み部
+
+
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
 		CULLENT_TIME = OBSERVATION_BEFORE_TIME
@@ -757,21 +806,27 @@ for scan in range(len(SCHED_Start_index)):
 
 		if WAIT_MMC_TIME > 0:
 			start_file.write("EXECUTE MMC CMD(MCL)\n")
-
 			NEXT_TIME = CULLENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
 			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
 
 			CULLENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
+			#end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+30)
 			start_file.write("WAIT_READY ANT\n")
 			start_file.write("WAIT MMC\n")
 			start_file.write("EXECUTE MMC CMD(MOP)\n")
 			start_file.write("WAIT MMC\n")
 
-		end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec)
+
+
+
+
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
 		start_file.write("WAIT ANT VLBI\n")
 		start_file.write("\n")
 		CULLENT_TIME = end_offset_time
+
+
+
 
 	#------------------------------#
 	#---------- after time ----------#
