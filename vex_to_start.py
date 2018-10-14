@@ -845,6 +845,10 @@ for scan in range(len(SCHED_Start_index)):
 
 		counter = 0
 		if time_plus_or_minus(critetia_time, start_offset_time) > 0:
+			print "#############################"
+			print "######## TIME ERR0R #########"
+			print "#        scan%d SKIP        #" %(scan+1)
+			print "#############################"
 			continue
 		else:
 			counter += 1
