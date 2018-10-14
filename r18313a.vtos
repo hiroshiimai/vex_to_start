@@ -1,0 +1,70 @@
+#------------------------------------------#
+# Please choice parameter
+#------------------------------------------#
+
+#---------- User name ----------#
+USER_NAME = vlbi3bz
+PROJRCT_NAME = proj5
+
+#---------- choose antenna name ----------#
+#Station_Name = Vm
+#Station_Name = Vr
+#Station_Name = Vo
+#Station_Name = Vs
+Station_Name = Nb
+#Station_Name = Ks
+
+
+#---------- set start observation time ----------#
+#---------- .vexファイルに従う場合に使用 ----------#
+start_time_flag = original_start
+#---------- 任意の時間で観測を開始する場合に使用 ----------#
+#start_time_flag = any_start
+#any_time = 2018y075d08h00m00s
+#---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
+#start_time_flag = after_start
+#after_day = 0
+#after_hour = 0
+#after_minute = 0
+
+#---------- 1SCAN目にアンテナを動かす時間(s) ----------#
+TIME_MOVE_ANTENNA = 1200
+
+#---------- vex file name ----------#
+#---------- 使用するvexファイル名を記入 ----------#
+vex_file_name = r18313a.vex
+
+#---------- start file name ----------#
+#---------- "ファイル名_アンテナの名前_作成日"で作る場合 ----------#
+#start_file_flag = file_date
+#---------- 任意のファイル名で作成する場合 ----------#
+#---------- 使用するvexファイル名を記入 ----------#
+start_file_flag = file_selected
+start_file_name = r18313a.start
+
+#----------- time of antenna ---------#
+#----------- MMCの一連の流れの後に何秒待つかを決める ----------#
+after_mmc = 10
+#----------- 観測を何秒前から行うかを決める ----------#
+before_observation = 2
+#----------- 2SCAN目以降にアンテナを動かす時間 ----------#
+time_of_second_move = 2
+
+#----------- ERROR MODE ---------#
+#----------- エラーが起きた時の処理 ----------#
+error_flag = skip_flag
+#error_flag = stop_flag
+
+
+#----------- VEX to VEX param ---------#
+#---------- 任意の時間で観測を開始する場合に使用 ----------#
+#start_time_flag = any_start_vex
+#any_time = 2018y075d08h00m00s
+#---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
+#start_time_flag = after_start_vex
+#after_day = 0
+#after_hour = 0
+#after_minute = 0
+#---------- 読み込むファイルと書き込むファイル名 ----------#
+#vex_file_name = r18313a.vex
+#write_vex_file_name = sample.vex
