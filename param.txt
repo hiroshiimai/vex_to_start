@@ -38,7 +38,9 @@ TIME_MOVE_ANTENNA = 1200
 #---------- 使用するvexファイル名を記入 ----------#
 #vex_file_name = r16136a.vex
 #vex_file_name = k18hi01d_180507_kvn.vex
-vex_file_name = a18075a_r1.vex
+#vex_file_name = a18075a_r1.vex
+vex_file_name = r18271a.vex
+#vex_file_name = r18313a.vex
 
 
 
@@ -72,12 +74,12 @@ error_flag = skip_flag
 #----------- VEX to VEX param ---------#
 #---------- 任意の時間で観測を開始する場合に使用 ----------#
 #start_time_flag = any_start_vex
-any_time = 2018y075d08h00m00s
+#any_time = 2018y075d08h00m00s
 #---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
-start_time_flag = after_start_vex
-after_day = 0
-after_hour = 0
-after_minute = 0
+#start_time_flag = after_start_vex
+#after_day = 0
+#after_hour = 0
+#after_minute = 0
 #---------- 読み込むファイルと書き込むファイル名 ----------#
-vex_file_name = a18075a_r1.vex
-write_vex_file_name = sample.vex
+#vex_file_name = a18075a_r1.vex
+#write_vex_file_name = sample.vex
