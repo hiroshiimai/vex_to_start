@@ -1,5 +1,5 @@
 #------------------------------------------#
-# Parameters commonly used in 
+# Parameters commonly used in
 # vex_to_start and vex_to_vex
 #------------------------------------------#
 
@@ -32,20 +32,31 @@ start_time_flag = original_start
 #after_hour = 0
 #after_minute = 0
 
+#----------- VEX to VEX param ---------#
+#---------- 任意の時間で観測を開始する場合に使用 ----------#
+#start_time_flag = any_start_vex
+#any_time = 2018y075d08h00m00s
+#---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
+#start_time_flag = after_start_vex
+#after_day = 0
+#after_hour = 0
+#after_minute = 0
+
+
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
-vex_file_name = r18313b.vex
+vex_file_name = r18271a.vex
 
 #--------------------------------------#
-# Parameters specific to vex_to_start 
+# Parameters specific to vex_to_start
 #--------------------------------------#
 
 #---------- start file name ----------#
 #---------- "ファイル名_アンテナの名前_作成日"で作る場合 ----------#
-#start_file_flag = file_date
+start_file_flag = file_date
 #---------- 任意のファイル名で作成する場合 ----------#
 #---------- 使用するvexファイル名を記入 ----------#
-start_file_flag = file_selected
+#start_file_flag = file_selected
 start_file_name = r18313b.start
 
 #---------- 1SCAN目追尾開始の為に必要なアンテナを動かす時間(s) ----------#
