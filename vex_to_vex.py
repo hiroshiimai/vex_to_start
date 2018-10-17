@@ -435,8 +435,7 @@ for data in data_list:
 		write_txt = date_txt + datetime.timedelta(seconds = int(time_difference.total_seconds()))
 		time_adjust = datetime.datetime(int(write_txt.year)-1, 12, 31)
 		write_file_txt = 'start=' + str(write_txt.year) + 'y' + str(write_txt.month) + 'm' + str(write_txt.day) + 'd' + str(write_txt.hour) + 'h' + str(write_txt.minute) + 'm' + str(write_txt.second) + 's'
-		write_file_txt = 'start=%04dy%03dd%02dh%02dm%02ds' %(int(write_txt.year), (write_txt - time_adjust).days, int(write_txt.hour), int(write_txt.minute), int(write_txt.second))
-		#print write_file_txt
+		write_file_txt = 'start=%04dy%03dd%02dh%02dm%02ds; %s %s\n' %(int(write_txt.year), (write_txt - time_adjust).days, int(write_txt.hour), int(write_txt.minute), int(write_txt.second), data.split()[1], data.split()[2])
 		start_file.write(write_file_txt)
 	else:
 		start_file.write(data)
