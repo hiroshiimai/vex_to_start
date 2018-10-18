@@ -71,7 +71,7 @@ for data in data_list:
 			# USER_NAME = data.split('=')[1][:-1]
 			USER_NAME = data.split('=')[1].split()[0]
 		if "PROJECT_NAME" == data.strip()[0:12]:
-                        PROJECT_NAME = data.split('=')[1].split()[0]
+			PROJECT_NAME = data.split('=')[1].split()[0]
 		if "Station_Name" == data.strip()[0:12]:
 			Station_Name = data.split('=')[1].split()[0]
 		if "start_time_flag" == data.strip()[0:15]:
@@ -88,7 +88,7 @@ for data in data_list:
 			TIME_MOVE_ANTENNA = int(data.split('=')[1].split()[0])
 		if "vex_file_name" == data.strip()[0:13]:
 			vex_file_name = data.split('=')[1].split()[0]
-		if "write_vex_file_name" == data.strip()[0:18]:
+		if "write_vex_file_name" == data.strip()[0:19]:
 			write_vex_file_name = data.split('=')[1].split()[0]
 		if "after_mmc" == data.strip()[0:9]:
 			after_mmc = int(data.split('=')[1].split()[0])
