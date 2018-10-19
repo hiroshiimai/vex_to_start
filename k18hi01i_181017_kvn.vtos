@@ -32,8 +32,8 @@ Station_Name = Nb
 #   after_start_vex : 現在の時刻からの変化
 #   after_start_ref_vex : vexの時間からの変化
 #start_time_flag = after_start
-start_time_flag = after_start_vex
-#start_time_flag = after_start_ref_vex
+#start_time_flag = after_start_vex
+start_time_flag = after_start_ref_vex
 after_day = 0
 after_hour = 23
 after_minute = 40
