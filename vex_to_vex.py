@@ -173,6 +173,8 @@ for data in EXPER_DATA:
 	if  "exper_nominal_start" in data[5:24]:
 		OBSERVATION_START_TIME = data[25:-1]
 		#print OBSERVATION_START_TIME
+	if  "exper_nominal_stop" in data[5:23]:
+		OBSERVATION_STOP_TIME = data[24:-1]
 
 
 
@@ -433,13 +435,23 @@ for data in data_list:
 	if 'start=' in ''.join(data.split()) and ('exper_nominal_start' in ''.join(data.split())) == 0:
 		date_txt = datetime.datetime(int(str_time_to_time(''.join(data.split())[6:-1])[0]),int(str_time_to_time(''.join(data.split())[6:-1])[1]), int(str_time_to_time(''.join(data.split())[6:-1])[2]), int(str_time_to_time(''.join(data.split())[6:-1])[3]), int(str_time_to_time(''.join(data.split())[6:-1])[4]), int(str_time_to_time(''.join(data.split())[6:-1])[5]))
 		write_txt = date_txt - datetime.timedelta(seconds = int(time_difference.total_seconds()))
-		print date_txt
-		print time_difference
-		print write_txt
-		print
 		time_adjust = datetime.datetime(int(write_txt.year)-1, 12, 31)
 		write_file_txt = 'start=' + str(write_txt.year) + 'y' + str(write_txt.month) + 'm' + str(write_txt.day) + 'd' + str(write_txt.hour) + 'h' + str(write_txt.minute) + 'm' + str(write_txt.second) + 's'
 		write_file_txt = 'start=%04dy%03dd%02dh%02dm%02ds; %s %s\n' %(int(write_txt.year), (write_txt - time_adjust).days, int(write_txt.hour), int(write_txt.minute), int(write_txt.second), data.split()[1], data.split()[2])
+		start_file.write(write_file_txt)
+	elif ('exper_nominal_start' in ''.join(data.split())):
+		date_txt = datetime.datetime(int(str_time_to_time(OBSERVATION_START_TIME)[0]),int(str_time_to_time(OBSERVATION_START_TIME)[1]), int(str_time_to_time(OBSERVATION_START_TIME)[2]), int(str_time_to_time(OBSERVATION_START_TIME)[3]), int(str_time_to_time(OBSERVATION_START_TIME)[4]), int(str_time_to_time(OBSERVATION_START_TIME)[5]))
+		write_txt = date_txt - datetime.timedelta(seconds = int(time_difference.total_seconds()))
+		time_adjust = datetime.datetime(int(write_txt.year)-1, 12, 31)
+		write_file_txt = 'start=' + str(write_txt.year) + 'y' + str(write_txt.month) + 'm' + str(write_txt.day) + 'd' + str(write_txt.hour) + 'h' + str(write_txt.minute) + 'm' + str(write_txt.second) + 's'
+		write_file_txt = 'exper_nominal_start=%04dy%03dd%02dh%02dm%02ds;\n' %(int(write_txt.year), (write_txt - time_adjust).days, int(write_txt.hour), int(write_txt.minute), int(write_txt.second))
+		start_file.write(write_file_txt)
+	elif ('exper_nominal_stop' in ''.join(data.split())):
+		date_txt = datetime.datetime(int(str_time_to_time(OBSERVATION_STOP_TIME)[0]),int(str_time_to_time(OBSERVATION_STOP_TIME)[1]), int(str_time_to_time(OBSERVATION_STOP_TIME)[2]), int(str_time_to_time(OBSERVATION_STOP_TIME)[3]), int(str_time_to_time(OBSERVATION_STOP_TIME)[4]), int(str_time_to_time(OBSERVATION_STOP_TIME)[5]))
+		write_txt = date_txt - datetime.timedelta(seconds = int(time_difference.total_seconds()))
+		time_adjust = datetime.datetime(int(write_txt.year)-1, 12, 31)
+		write_file_txt = 'start=' + str(write_txt.year) + 'y' + str(write_txt.month) + 'm' + str(write_txt.day) + 'd' + str(write_txt.hour) + 'h' + str(write_txt.minute) + 'm' + str(write_txt.second) + 's'
+		write_file_txt = 'exper_nominal_stop=%04dy%03dd%02dh%02dm%02ds;\n' %(int(write_txt.year), (write_txt - time_adjust).days, int(write_txt.hour), int(write_txt.minute), int(write_txt.second))
 		start_file.write(write_file_txt)
 	else:
 		start_file.write(data)
