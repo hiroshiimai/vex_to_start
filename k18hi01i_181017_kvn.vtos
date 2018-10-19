@@ -34,6 +34,8 @@ start_time_flag = after_start_vex
 after_day = 0
 after_hour = 23
 after_minute = 40
+#start_time_flag = any_start_vex
+#any_time = 2018y075d08h00m00s
 
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
