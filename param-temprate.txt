@@ -41,7 +41,7 @@ after_minute = 40
 
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
-vex_file_name = k18hi01i_181016_kvn.vex
+vex_file_name = k18hi02f.vex
 
 #--------------------------------------#
 # Parameters specific to vex_to_start
@@ -54,6 +54,13 @@ vex_file_name = k18hi01i_181016_kvn.vex
 #---------- 使用するvexファイル名を記入 ----------#
 start_file_flag = file_selected
 start_file_name = r18313c.start
+
+#---------- "ファイル名_アンテナの名前_作成日"で作る場合 ----------#
+#device_file_flag = file_date
+#---------- 任意のファイル名で作成する場合 --------#
+device_file_flag = file_selected
+device_file_name = sample.device
+
 
 #---------- 1SCAN目追尾開始の為に必要なアンテナを動かす時間(s) ----------#
 TIME_MOVE_ANTENNA = 1200
