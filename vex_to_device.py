@@ -493,21 +493,38 @@ for i in range(len(PROCEDURES_Start_index)):
 
 BBC_NAME = 0
 BBC_NUMBER = []
+tmpBBC_NUMBER = []
 for i in range(len(BBC_LIST)):
 	if BBC_LIST[i].split()[-1] == BBC_NAME:
 		pass
 	else:
+		tmpBBC_NUMBER.append(i)
 		BBC_NUMBER.append(i)
 		BBC_NAME = BBC_LIST[i].split()[-1]
 		#print BBC_LIST[i].split()[-1]
 #print BBC_NUMBER
+newFREQ_LIST = []
+tmpBBC_NUMBER.append(16)
+#print tmpBBC_NUMBER
+for i in range(len(tmpBBC_NUMBER)-1):
+	tmpCenterFreq = []
+	for j in range(int(tmpBBC_NUMBER[i]), int(tmpBBC_NUMBER[i+1])):
+		print j
+		tmpCenterFreq.append(float(FREQ_LIST[j].split()[3]))
+		print float(FREQ_LIST[j].split()[3])
+	tmpCenterFreq = 0.5*(max(tmpCenterFreq) + min(tmpCenterFreq) + float(FREQ_LIST[j].split()[8]))
+
+	for j in range(int(tmpBBC_NUMBER[i]), int(tmpBBC_NUMBER[i+1])):
+		newFREQ_LIST.append(tmpCenterFreq)
+#print newFREQ_LIST
+
 
 
 #-------------------------------------------------#
 #  書き出す部分
 #-------------------------------------------------#"
 if device_file_flag == "file_date":
-	device_file_name = Observation_Name[:-1] + "_" + str(Create_Date.year)[2:] + "%02d%02d%02d%02d%02d.device" %(int(str(Create_Date.month)), int(str(Create_Date.day)), int(str(Create_Date.hour)), int(str(Create_Date.minute)), int(str(Create_Date.second)))
+	device_file_name = Observation_Name[:-1] + "_" + str(Create_Date.year)[2:] + "%02d%02d%02d%02d%02d.ndevice" %(int(str(Create_Date.month)), int(str(Create_Date.day)), int(str(Create_Date.hour)), int(str(Create_Date.minute)), int(str(Create_Date.second)))
 else:
 	pass
 
@@ -533,7 +550,7 @@ for i in range(1, 9):
 				device_freq
 				continue
 			elif float(FREQ_LIST[BBC_NUMBER[j]].split()[3])-40000 < 10000:
-				start_file.write("Rx_Type%s=H40ch%s\n" %(i, count40))
+				start_file.write("Rx_Type%s=H40\n" %(i))
 				count40+=1
 				flag += 1
 				continue
@@ -546,18 +563,21 @@ for i in range(1, 9):
 #------------------------
 #  freqを入れる
 #------------------------
+counter = 1
 for i in range(1, 9):
 	flag = 0
 	for j in range(len(BBC_NUMBER)):
 		if i==j+1:
-			if float(FREQ_LIST[BBC_NUMBER[j]].split()[3])-20000 < 10000:
-				start_file.write("Rx_Freq%s=22.9\n" %(i))
+			if float(newFREQ_LIST[BBC_NUMBER[j]])-20000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[j]])/1000
+				start_file.write("Rx_Freq%s=%2.2f\n" %(i, tmpFreq))
 				count20+=1
 				flag += 1
 				device_freq
 				continue
-			elif float(FREQ_LIST[BBC_NUMBER[j]].split()[3])-40000 < 10000:
-				start_file.write("Rx_Freq%s=43.35\n" %(i))
+			elif float(newFREQ_LIST[BBC_NUMBER[j]])-40000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[j]])/1000
+				start_file.write("Rx_Freq%s=%2.2f\n" %(i, tmpFreq))
 				count40+=1
 				flag += 1
 				continue
@@ -580,33 +600,29 @@ for i in range(1, 17):
 	flag = 0
 	for j in freq_number:
 		if i == j:
-			if float(FREQ_LIST[j].split()[3])-20000 < 10000:
-				start_file.write("SAM_Freq%s=22.9\n" %(i))
+			if float(newFREQ_LIST[j])-20000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[counter]-2])/1000
+				start_file.write("SAM_Freq%s=%2.2f\n" %(i, tmpFreq))
 				count20+=1
 				flag += 1
 				device_freq
 				continue
-			elif float(FREQ_LIST[j].split()[3])-40000 < 10000:
-				start_file.write("SAM_Freq%s=43.35\n" %(i))
+			elif float(newFREQ_LIST[j])-40000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[counter]-2])/1000
+				start_file.write("SAM_Freq%s=%2.2f\n" %(i, tmpFreq))
 				count40+=1
 				flag += 1
 				continue
 		if i == j+1:
-			if float(FREQ_LIST[BBC_NUMBER[counter]-1].split()[3])-20000 < 10000:
-				tmpFreq = FREQ_LIST[BBC_NUMBER[counter]-2].split()[3]
-				tmpFreq = float(tmpFreq) / 1000
-				#print BBC_NUMBER.index(i)
-				#print FREQ_LIST[BBC_NUMBER[j]].split()[3]
+			if float(newFREQ_LIST[BBC_NUMBER[counter]-1])-20000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[counter]-2])/1000
 				start_file.write("SAM_Freq%s=%2.2f\n" %(i, tmpFreq))
 				flag += 1
 				counter += 1
 				continue
 
-			elif float(FREQ_LIST[BBC_NUMBER[counter]-1].split()[3])-40000 < 10000:
-				tmpFreq = FREQ_LIST[BBC_NUMBER[counter]-2].split()[3]
-				tmpFreq = float(tmpFreq) / 1000
-				#print BBC_NUMBER.index(i)
-				#print FREQ_LIST[BBC_NUMBER[j]].split()[3]
+			elif float(newFREQ_LIST[BBC_NUMBER[counter]-1])-40000 < 10000:
+				tmpFreq = float(newFREQ_LIST[BBC_NUMBER[counter]-2])/1000
 				start_file.write("SAM_Freq%s=%2.2f\n" %(i, tmpFreq))
 				flag += 1
 				counter += 1
