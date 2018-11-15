@@ -528,7 +528,7 @@ start_file.write("\n")
 #  write GROUP OF DEVICES
 #-------------------------------------------------#
 start_file.write("#-------- DEFINE GROUP OF DEVICES --------\n")
-start_file.write("GROUP TRK_LOCAL ANT VLBI\n")
+start_file.write("GROUP GRPTRK ANT VLBI\n")
 start_file.write("\n")
 
 #-------------------------------------------------#
@@ -645,13 +645,13 @@ for scan in range(len(SCHED_Start_index)):
 			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
 
 		#ファイル書き込み部
-		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
-		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET GRPTRK SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET GRPTRK SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
 		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
 		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
 		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
 		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
-		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
+		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
@@ -789,13 +789,13 @@ for scan in range(len(SCHED_Start_index)):
 			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
 
 		#ファイル書き込み部
-		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
-		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET GRPTRK SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET GRPTRK SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
 		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
 		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
 		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
 		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
-		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
+		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
@@ -937,13 +937,13 @@ for scan in range(len(SCHED_Start_index)):
 			declination = float(SOURCE_LIST[SOURCE_NUMBER][2][0:2]) + float(SOURCE_LIST[SOURCE_NUMBER][2][3:5]) / 60.0 + float(SOURCE_LIST[SOURCE_NUMBER][2][6:10]) / 3600.0
 
 		#ファイル書き込み部
-		start_file.write("SET TRK_LOCAL SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
-		start_file.write("SET TRK_LOCAL SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
+		start_file.write("SET GRPTRK SRC_NAME \'" + SOURCE_LIST[SOURCE_NUMBER][0] + "\'\n")
+		start_file.write("SET GRPTRK SRC_POS ( %.5f, %.5f)\n" %(right_ascension, declination))
 		start_file.write("SET ANT SCAN_COOD \'RADEC\'\n")
 		start_file.write("SET ANT SCAN_COOD_OFF \'RADEC\'\n")
 		start_file.write("SET VLBI OBS_MODE \'NORMAL\'\n")
 		start_file.write("SET VLBI SCHDULE \'SKED%03d\'\n" %(scan+1))
-		start_file.write("SET TRK_LOCAL EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
+		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
 		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
