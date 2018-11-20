@@ -377,6 +377,7 @@ for i in range(len(SCHED_Start_index)):
 			SCHED_LIST[i][3] = ''.join(data.split())[8:]
 			#print ''.join(data.split()).strip('station=Vm')
 
+print SCHED_LIST[0][0]
 #-------------------------------------------------#
 #  MODE
 #-------------------------------------------------#

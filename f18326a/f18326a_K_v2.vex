@@ -1,0 +1,439 @@
+VEX_rev = 1.5B;
+* 2Gbps (2GbpsX1IF, Single-A, 22GHz, MASER)
+* rec =   S1: 21971MHz: 512MHz: A: ADS1K: OCTADISK: 0;
+* bunch = S1: 21971MHz: 512MHz:  65536:  512: 0.8: 1.0: 1.0;
+* bunch = S1: 22225MHz:  16MHz:  65536: 1024: 0.8: 1.0: 1.0;
+*------------------------------------------------------------------------------
+$GLOBAL;
+     ref $EXPER = f18326a;
+     ref $PROCEDURES = STD_1BEAM;
+*
+$EXPER;
+*
+def f18326a;
+     target_correlator = VERA;
+     exper_name = f18326a;
+     exper_description = EAVN fringe check observation;
+     exper_nominal_start = 2018y326d17h45m00s;
+     exper_nominal_stop  = 2018y326d20h41m00s;
+     PI_name = N. Sakai ;
+     PI_email = nobuyuki.sakai@nao.ac.jp;
+     contact_name = N. Sakai;
+     contact_email = nobuyuki.sakai@nao.ac.jp;
+     scheduler_name = N. Sakai;
+     scheduler_email = nobuyuki.sakai@nao.ac.jp;
+enddef;
+*
+$MODE;
+*
+def GEO1K;
+     ref $PROCEDURES = PROC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = GEO1K:Vm:Vr:Vo:Vs;
+     ref $IF = IF_K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+enddef;
+*
+* GEO1K_F for the first scan (sec Z before scan)
+def GEO1K_F;
+     ref $PROCEDURES = PROC3:Vr:Vs:Vm:Vo;
+     ref $FREQ = GEO1K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vr:Vs:Vm:Vo;
+     ref $IF = IF_K:Vr:Vs:Vm:Vo;
+enddef;
+*
+*------------------------------------------------------------------------------
+$PROCEDURES;
+*
+def STD_1BEAM;
+     tape_change =  180 sec;
+     beam1 = on;
+     beam2 = off;
+enddef;
+*
+def PROC1;
+     preob_cal = on : 20 sec : R_SKY;
+ *    midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+def PROC3;
+     preob_cal = on : 10 sec : SECZ : 840 sec ;
+     preob_cal = on : 20 sec : R_SKY;
+*     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+*------------------------------------------------------------------------------
+$FREQ;
+*
+def GEO1K;
+     * BBCLO = 5.171 GHz
+     sample_rate = 512.000 Ms/sec;
+     chan_def = &R1: 21971.000000 MHz: U: 16.00 MHz: &S01 : &BBCa : &NoCal;
+     chan_def = &R1: 22003.000000 MHz: U: 16.00 MHz: &S02 : &BBCa : &NoCal;
+     chan_def = &R1: 22035.000000 MHz: U: 16.00 MHz: &S03 : &BBCa : &NoCal;
+     chan_def = &R1: 22067.000000 MHz: U: 16.00 MHz: &S04 : &BBCa : &NoCal;
+     chan_def = &R1: 22099.000000 MHz: U: 16.00 MHz: &S05 : &BBCa : &NoCal;
+     chan_def = &R1: 22131.000000 MHz: U: 16.00 MHz: &S06 : &BBCa : &NoCal;
+     chan_def = &R1: 22163.000000 MHz: U: 16.00 MHz: &S07 : &BBCa : &NoCal;
+     chan_def = &R1: 22195.000000 MHz: U: 16.00 MHz: &S08 : &BBCa : &NoCal;
+     chan_def = &R1: 22227.000000 MHz: U: 16.00 MHz: &S09 : &BBCa : &NoCal;
+     chan_def = &R1: 22259.000000 MHz: U: 16.00 MHz: &S10 : &BBCa : &NoCal;
+     chan_def = &R1: 22291.000000 MHz: U: 16.00 MHz: &S11 : &BBCa : &NoCal;
+     chan_def = &R1: 22323.000000 MHz: U: 16.00 MHz: &S12 : &BBCa : &NoCal;
+     chan_def = &R1: 22355.000000 MHz: U: 16.00 MHz: &S13 : &BBCa : &NoCal;
+     chan_def = &R1: 22387.000000 MHz: U: 16.00 MHz: &S14 : &BBCa : &NoCal;
+     chan_def = &R1: 22419.000000 MHz: U: 16.00 MHz: &S15 : &BBCa : &NoCal;
+     chan_def = &R1: 22451.000000 MHz: U: 16.00 MHz: &S16 : &BBCa : &NoCal;
+enddef;
+*
+*------------------------------------------------------------------------------
+$IF;
+*
+def IF_K;
+     if_def = &IF_R1: B1: L: 16800.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 16800.0 MHz: U ;
+enddef;
+*
+def IF_Q;
+     if_def = &IF_R1: B1: L: 37500.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 37500.0 MHz: U ;
+enddef;
+*
+def IF_SX;
+     if_def = &IF_R1: B1: L: 2000.0 MHz: U ; 
+     if_def = &IF_R2: B2: L: 8080.0 MHz: U ;
+enddef;
+*
+*------------------------------------------------------------------------------
+$BBC;
+*
+def BBC1;
+     BBC_assign = &BBCa:  1: &IF_R1;
+     BBC_assign = &BBCb:  2: &IF_R2;
+enddef;
+*
+*------------------------------------------------------------------------------
+$STATION;
+*
+def Vr;
+     ref $SITE = VERAIRIK;
+     ref $ANTENNA = VERA_IRIKI;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vs;
+     ref $SITE = VERAISGK;
+     ref $ANTENNA = VERA_ISHIGAK;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vo;
+     ref $SITE = VERAOGSW;
+     ref $ANTENNA = VERA_OGASAWA;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+def Vm;
+     ref $SITE = VERAMZSW;
+     ref $ANTENNA = VERA_MIZUSAW;
+     ref $DAS = VERA_DIR2K;
+*     ref $DAS = VERA_DIR1K_N;
+enddef;
+*
+*------------------------------------------------------------------------------
+$DAS;
+*
+def VERA_DIR2K;
+     record_transport_type = DIR2K;
+     electronics_rack_type = VERA;
+     number_drives = 1;
+     tape_length = 81 min;
+     tape_motion = continuous : 20 sec;
+enddef;
+*
+*------------------------------------------------------------------------------
+$SOURCE;
+*
+* ##########Followings:GENJI sources##########
+*###High priority sources#######
+*
+*######Back-up sources#######
+*
+def OJ287;
+     source_name = OJ287;
+     ra = 08h54m48.874924s;
+     dec = +20d06'30.64088";
+     ref_coord_frame = J2000;
+enddef;
+*
+*############end GENJI source##############
+*
+def VYCMA;
+     source_name = VYCMA;
+     ra = 07h22m58.33s;
+     dec = -25d46'03.2";
+     ref_coord_frame = J2000;
+enddef;
+*
+*------------------------------------------------------------------------------
+$SCHED;
+*
+scan No00001;
+     mode=GEO1K_F;
+     source1=OJ287;
+     start=2018y326d18h00m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00002;
+     mode=GEO1K;
+     source1=VYCMA;
+     start=2018y326d18h15m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00003;
+     mode=GEO1K;
+     source1=OJ287;
+     start=2018y326d18h30m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00004;
+     mode=GEO1K;
+     source1=VYCMA;
+     start=2018y326d18h45m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00005;
+     mode=GEO1K;
+     source1=OJ287;
+     start=2018y326d19h00m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00006;
+     mode=GEO1K;
+     source1=VYCMA;
+     start=2018y326d19h15m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00007;
+     mode=GEO1K;
+     source1=OJ287;
+     start=2018y326d19h30m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00008;
+     mode=GEO1K;
+     source1=VYCMA;
+     start=2018y326d19h45m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00009;
+     mode=GEO1K;
+     source1=OJ287;
+     start=2018y326d20h00m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00010;
+     mode=GEO1K;
+     source1=VYCMA;
+     start=2018y326d20h15m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+scan No00011;
+     mode=GEO1K;
+     source1=OJ287;
+     start=2018y326d20h30m00s;
+     station=Vr:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  600 sec:     0 sec:   :       : :    : 1;
+endscan;
+*
+*------------------------------------------------------------------------------
+$SITE;
+*
+def VERAIRIK;
+     site_type = fixed;
+     site_name = VERAIRIK;
+     site_ID = Vr;
+*    site position of Iriki on 2019/01/10 from v1804trf08
+     site_position = -3521719.8839 m: 4132174.6974 m: 3336994.1125 m;
+*     elev=  569.0 long=130:26:24.97 lat= 31:44:53.22 (GPS W)
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAISGK;
+     site_type = fixed;
+     site_name = VERAISGK;
+     site_ID = Vs;
+*     elev=  24.0 long=124:13:59.0 lat= 24:25:48.0
+*    site position of Ishigaki on 2019/01/10 from v1804trf08
+     site_position = -3263995.2732 m: 4808056.3950 m: 2619948.6485 m;
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAOGSW;
+     site_type = fixed;
+     site_name = VERAOGSW;
+     site_ID = Vo;
+*     elev=  246.70 long=142:12:42.0 lat=27:05:24.  (OLD)
+*    site position of Ogasawara on 2019/01/10 from v1804trf08
+     site_position = -4491068.3825 m: 3481545.2488 m: 2887399.7961 m;
+*     horizon_map_az =  0.0 deg: 10.0: 20.0: 30.0: 40.0: 50.0: 60.0: 70.0: 80.0:
+*                                90.0:100.0:110.0:120.0:130.0:140.0:145.0:150.0:
+*                               155.0:190.0:195.0:200.0:210.0:220.0:245.0:255.0:
+*                               260.0:270.0:280.0:290.0:300.0:310.0:320.0:330.0:
+*                               340.0:350.0:360.0;
+*     horizon_map_el = 10.0 deg: 11.0: 13.0: 15.0: 17.0: 17.0: 15.0: 13.0: 12.0:
+*                                11.0: 11.0: 11.0: 11.0: 11.0: 10.0:  9.0:  8.0:
+*                                 7.0:  7.0:  8.0:  9.0: 10.0: 10.0: 10.0: 11.0:
+*                                12.0: 12.0: 13.0: 13.0: 12.0: 11.0: 11.0: 10.0:
+*                                 9.0: 10.0: 10.0;
+enddef;
+*
+def VERAMZSW;
+     site_type = fixed;
+     site_name = VERAMZSW;
+     site_ID = Vm;
+*     elev=  62.0 long=141:08:10.0 lat= 39:07:54.0
+*    site position of Mizusawa on 2019/01/10 from v1804trf08
+     site_position = -3857244.9469 m: 3108782.9379 m: 4003899.1636 m;
+*     horizon_map_az =  0.0 deg:  5.0: 45.0: 50.0: 55.0: 60.0: 65.0: 70.0: 75.0:
+*                                80.0: 85.0: 90.0: 95.0:105.0:110.0:115.0:120.0:
+*                               150.0:155.0:165.0:170.0:180.0:185.0:215.0:220.0:
+*                               225.0:230.0:235.0:240.0:255.0:260.0:265.0:270.0:
+*                               360.0;
+*     horizon_map_el =  2.0 deg:  2.0:  2.0:  5.0:  6.0:  7.0:  7.0:  8.0:  8.0:
+*                                 9.0:  6.0:  3.0:  2.0:  2.0:  3.0:  3.0:  2.0:
+*                                 2.0:  3.0:  3.0:  2.0:  2.0:  3.0:  3.0:  4.0:
+*                                 4.0:  5.0:  5.0:  4.0:  4.0:  3.0:  3.0:  2.0:
+*                                 2.0;
+enddef;
+*
+*------------------------------------------------------------------------------
+$ANTENNA;
+*
+def VERA_IRIKI;
+ antenna_diam = 20m;
+ antenna_name = VERA_IRIKI;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_ISHIGAK;
+ antenna_diam = 20m;
+ antenna_name = VERA_ISHIGAK;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_OGASAWA;
+ antenna_diam = 20m;
+ antenna_name = VERA_OGASAWA;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+def VERA_MIZUSAW;
+ antenna_diam = 20m;
+ antenna_name = VERA_MIZUSAW;
+ axis_type = az : el;
+ axis_offset =     0.0 m;
+ antenna_motion = az :  120.0 deg/min : 1 sec;
+ antenna_motion = el :  120.0 deg/min : 1 sec;
+ pointing_sector = &ccw: az : -90 :   0 : el : 5 : 85 ;
+ pointing_sector = &n  : az :   0 : 360 : el : 5 : 85 ;
+ pointing_sector = &cw : az : 360 : 450 : el : 5 : 85 ;
+ multi_beam_number = 2;
+ multi_beam_type = VERA;
+ beam_separation = 0.32 deg: 2.2 deg: 0.03 deg/sec;
+ field_rotation = -270 deg: 270 deg: 3 deg/sec;
+enddef;
+*
+*------------------------------------------------------------------------------

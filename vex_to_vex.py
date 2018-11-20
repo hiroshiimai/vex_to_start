@@ -299,21 +299,23 @@ for i in range(len(SCHED_Start_index)):
 	Station_Name_ANT = "station=" + Station_Name
 	tmpSCHED = SCHED_TEXT.split(';')
 	for data in tmpSCHED:
+		if "scan" in ''.join(data.split())[0:5]:
+			SCHED_LIST.append([0, 0, 0, 0])
 		if "start=" in ''.join(data.split()):
-			SCHED_LIST.append([])
-			SCHED_LIST[i].append(''.join(data.split()))
+			#SCHED_LIST.append([])
+			SCHED_LIST[i][0] = ''.join(data.split())[6:]
 			#print ''.join(data.split()).strip('start=')
 		if "mode=" in ''.join(data.split()):
-			SCHED_LIST[i].append(''.join(data.split())[5:])
+			SCHED_LIST[i][1] = ''.join(data.split())[5:]
 			#print ''.join(data.split()).strip('mode=')
 		if "source=" in ''.join(data.split()):
-			SCHED_LIST[i].append(''.join(data.split())[7:])
+			SCHED_LIST[i][2] = ''.join(data.split())[7:]
 			#print ''.join(data.split()).strip('source=')
 		if "source1=" in ''.join(data.split()):
-			SCHED_LIST[i].append(''.join(data.split())[8:])
+			SCHED_LIST[i][2] = ''.join(data.split())[8:]
 			#print ''.join(data.split()).strip('source1=')
 		if Station_Name_ANT in ''.join(data.split()):
-			SCHED_LIST[i].append(''.join(data.split())[9:])
+			SCHED_LIST[i][3] = ''.join(data.split())[8:]
 			#print ''.join(data.split()).strip('station=Vm')
 
 
