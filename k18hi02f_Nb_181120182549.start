@@ -1,0 +1,35 @@
+#---------------------------------------------------
+#------- WS COSMOS INSTRUCTION FILE
+#------- Generated from VLBI Schedule
+#------- Conversion Software ver. 17SEP18
+#------------------- made by H.Imai
+#------- Creation Date : 2018/11/20 18:25:49
+#---------------------------------------------------
+
+#-------- OBSTABLE Information Table --------
+% OBSERVER=Takeru
+% GROUP=Takeru
+% PROJECT=vlbi
+% OBS_NAME=k18hi02f
+% MMC_CMD1=MCL
+% MMC_CMD2=MOP
+% MMC_CMD3=
+% MMC_CMD4=
+% ON_TINTEG=10
+% OFF_TINTEG=10
+% CALIB_TINTEG=10
+
+#-------- DEFINE GROUP OF DEVICES --------
+GROUP GRPTRK ANT VLBI
+
+#-------- OPEN DEVICES --------
+OPEN ANT
+OPEN MMC
+OPEN VLBI
+
+WAIT ANT
+WAIT MMC
+WAIT VLBI
+CLOSE ANT
+CLOSE MMC
+CLOSE VLBI

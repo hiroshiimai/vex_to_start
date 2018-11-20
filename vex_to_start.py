@@ -128,7 +128,6 @@ for data in data_list:
 			start_file_name  = data.split('=')[1].split()[0]
 		if "error_flag" == data.strip()[0:10]:
 			error_flag  = data.split('=')[1].split()[0]
-			print start_file_name
 	else:
 		pass
 
@@ -482,7 +481,7 @@ for i in range(len(PROCEDURES_Start_index)):
 offset_time = SCHED_LIST[0][0]
 start_offset_time = str_time_to_time(offset_time)
 start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
-end_offset_time = start_offset_time - datetime.timedelta(seconds=1000)
+end_offset_time = start_offset_time - datetime.timedelta(seconds=10000)
 
 
 if start_file_flag == "file_date":
@@ -540,13 +539,9 @@ start_file.write("OPEN MMC\n")
 start_file.write("OPEN VLBI\n")
 start_file.write("\n")
 
-
+counter = 0
 #SCHEDの名前からSOURCEを探索
 for scan in range(len(SCHED_Start_index)):
-
-
-
-
 #----------------------------------------------------------
 
 	#------------------------------------#
@@ -557,7 +552,12 @@ for scan in range(len(SCHED_Start_index)):
 		start_offset_time = str_time_to_time(offset_time)
 		start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
 		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
-		end_offset_time = end_offset_time + datetime.timedelta(seconds=time_of_second_move)
+
+		#ほぼscan == 0 は関係ない
+		if scan == 0:
+			end_offset_time = end_offset_time + datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+		else:
+			end_offset_time = end_offset_time + datetime.timedelta(seconds=time_of_second_move)
 
 
 
@@ -687,10 +687,12 @@ for scan in range(len(SCHED_Start_index)):
 	#---------- any time ----------#
 	#------------------------------#
 	if start_time_flag == "any_start":
-		start_offset_time = str_time_to_time(any_time)
-		start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
-		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
-		critetia_time = start_offset_time
+		if scan == 0:
+			start_offset_time = str_time_to_time(any_time)
+			start_offset_time = datetime.datetime(int(start_offset_time[0]), int(start_offset_time[1]), int(start_offset_time[2]), int(start_offset_time[3]), int(start_offset_time[4]), int(start_offset_time[5]))
+			start_offset_time = start_offset_time + datetime.timedelta(hours=9)
+			critetia_time = start_offset_time
+
 
 
 		offset_time = SCHED_LIST[scan][0]
@@ -699,8 +701,17 @@ for scan in range(len(SCHED_Start_index)):
 		start_offset_time = start_offset_time + datetime.timedelta(hours=9)
 		end_offset_time = end_offset_time + datetime.timedelta(seconds=time_of_second_move)
 
-		counter = 0
+
 		if time_plus_or_minus(critetia_time, start_offset_time) > 0:
+			print "#############################"
+			print "######## TIME ERR0R #########"
+			print "#        scan%d SKIP        #" %(scan+1)
+			print "#############################"
+			start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+			start_file.write("#-------- TIME ERROR --------\n")
+			start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+
+
 			continue
 		else:
 			counter += 1
@@ -754,7 +765,6 @@ for scan in range(len(SCHED_Start_index)):
 					print "#        scan%d STOP        #" %(scan+1)
 					print "#############################"
 					sys.exit()
-
 
 
 
@@ -824,6 +834,7 @@ for scan in range(len(SCHED_Start_index)):
 		start_file.write("WAIT ANT VLBI\n")
 		start_file.write("\n")
 		CULLENT_TIME = end_offset_time
+		critetia_time = CULLENT_TIME
 
 
 
@@ -832,9 +843,9 @@ for scan in range(len(SCHED_Start_index)):
 	#---------- after time ----------#
 	#------------------------------#
 	if start_time_flag == "after_start":
-		start_offset_time = datetime.datetime.today() + datetime.timedelta(days=after_day, hours=after_hour, minutes=after_minute)
-
-		critetia_time = start_offset_time
+		if scan == 0:
+			start_offset_time = datetime.datetime.today() + datetime.timedelta(days=after_day, hours=after_hour, minutes=after_minute)
+			critetia_time = start_offset_time
 
 
 		offset_time = SCHED_LIST[scan][0]
@@ -849,6 +860,9 @@ for scan in range(len(SCHED_Start_index)):
 			print "######## TIME ERR0R #########"
 			print "#        scan%d SKIP        #" %(scan+1)
 			print "#############################"
+			start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+			start_file.write("#-------- TIME ERROR --------\n")
+			start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
 			continue
 		else:
 			counter += 1

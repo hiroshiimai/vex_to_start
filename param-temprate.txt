@@ -14,13 +14,14 @@ PROJRCT_NAME = proj5
 #Station_Name = Vs
 Station_Name = Nb
 #Station_Name = Ks
+#Station_Name = Ny
 
 #---------- set start observation time ----------#
 #---------- .vexファイルに従う場合に使用 ----------#
-start_time_flag = original_start
+#start_time_flag = original_start
 #---------- 任意の時間で観測を開始する場合に使用 ----------#
-#start_time_flag = any_start
-#any_time = 2018y075d08h00m00s
+start_time_flag = any_start
+any_time = 2019y075d08h00m00s
 #---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
 # 注意：２つのスクリプトで意味が異なる。
 #   vex_to_start: vex fileに記載されたスキャンのうち、
@@ -30,8 +31,8 @@ start_time_flag = original_start
 #   after_start_vex : 現在の時刻からの変化
 #   after_start_ref_vex : vexの時間からの変化
 #start_time_flag = after_start
-start_time_flag = after_start_vex
-start_time_flag = after_start_ref_vex
+#start_time_flag = after_start_vex
+#start_time_flag = after_start_ref_vex
 after_day = 0
 after_hour = 23
 after_minute = 40
@@ -41,7 +42,8 @@ after_minute = 40
 
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
-vex_file_name = k18hi02f.vex
+#vex_file_name = k18hi02f.vex
+vex_file_name = r16136a.vex
 
 #--------------------------------------#
 # Parameters specific to vex_to_start
@@ -53,7 +55,7 @@ vex_file_name = k18hi02f.vex
 #---------- 任意のファイル名で作成する場合 ----------#
 #---------- 使用するvexファイル名を記入 ----------#
 start_file_flag = file_selected
-start_file_name = r18313c.start
+start_file_name = sample.start
 
 #---------- "ファイル名_アンテナの名前_作成日"で作る場合 ----------#
 #device_file_flag = file_date
