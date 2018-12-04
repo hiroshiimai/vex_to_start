@@ -473,4 +473,4 @@ for data in data_list:
 #  alert parameter
 #-------------------------------------------------#
 print ".VEX FILE NAME         : " + vex_file_name
-print ".START FILE NAME       : " + write_vex_file_name
+print ".VEX FILE NAME       : " + write_vex_file_name
