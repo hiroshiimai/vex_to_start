@@ -1,0 +1,985 @@
+*** Template for ESTEMA sessions *****
+VEX_rev = 1.5;
+*    SCHED vers: Release of Jan. 22, 2014 - update 1
+*    VEX/SCHED:  1.5.87
+*    Other versions: Sched:  11.2  Plot: 1.06  JPL-ephem: 1.01
+*------------------------------------------------------------------------------
+$GLOBAL;
+*#### Change the session code ####
+     ref $EXPER = k18hi01k;
+     ref $PROCEDURES = STD_2BEAM;
+*                                                      +------------+
+*                         PI revision number:          |    1.0000  |
+*                                                      +------------+
+*    mode:       KaVA
+*------------------------------------------------------------------------------
+$EXPER;
+*
+*----------- Procedure instruction of KJCC correlation —————
+*
+* Each BBC has a bandwidth of 16MHz.
+*
+* For KVN+VERA(K-band) session
+*   In VERA, 1st and 2nd-16th BBCs are allocated to the A- and B-beams, respectively.
+*     Pass A: 2048 ch per BBC for KaVA (KVN+VERA A-beam) in 1st BBC (for H2O masers)
+*     Pass B: 1024 ch per BBC for KVN in 16 BBCs (for H2O and SiO masers)
+*     Pass C: 32 spectral channels per BBC for KaVA (KVN+VERA B-beam)
+*                   in 2nd, 3rd, 4th (KVN) and 2nd-16th (VERA B-beam) BBCs,
+*                   in which 2nd, 3rd, 4th BBCs in KVN correspond to
+*                   4th, 8th, 9th BBCs in VERA, respectively.
+*
+* For KVN+VERA(Q-band) session
+*   In VERA, 1st /9th  and 2nd-8th / 10th-16th BBCs are allocated to
+*                   the A- and B-beams, respectively.
+*     Pass A: 1024 ch per BBC for KaVA (KVN+VERA A-beam)
+*                  in 5th, 8th (KVN) and 1st, 9th (VERA) BBCs (for SiO masers)
+*     Pass B: 1024 ch per BBC for KVN in 16 BBCs  (for H2O and SiO masers)
+*     Pass C: 32 spectral channels per BBC for KaVA (KVN+VERA B-beam)
+*                   in 5th, 6th, 8th (KVN) and 2nd-8th / 10th-16th (VERA B-beam) BBCs,
+*                   in which 5th, 6th, 8th BBCs in KVN correspond to
+*                   2nd, 4th, 13th BBCs in VERA, respectively.
+*
+*
+*#### Change the session code ####
+def k18hi01k;
+     target_correlator = VERA;
+     exper_name = k18hi01k;
+     exper_description = "ESTEMA";
+     PI_name = "Hiroshi Imai";
+     PI_email = k3830453@kadai.jp;
+*    address:   Kagoshima University
+*               Center for General Education 
+*
+*    phone:     +81 99 285 8085
+*    during obs:
+*    fax:
+*
+*#### Change the session period (copy & past from NRAO sched ouput ####
+*#### Add 15 min before the scan start and 10 min after the scan end ###
+*
+     exper_nominal_start=2018y315d17h50m00s;
+     exper_nominal_stop=2018y315d21h25m00s;
+*
+     target_correlator = VLBADIFX;
+*
+enddef;
+*
+*------------------------------------------------------------------------------
+$SITE;
+*
+def KVNYS;
+     site_type = fixed;
+     site_name = KVNYS;
+     site_ID = Ky;
+*    elev=  121.65 long=-126:56:27. lat= 37:33:54.6
+     site_position =-3042280.95370 m: 4045902.63380 m: 3867374.30120 m;
+     site_velocity =  0.000000   m/yr:  0.000000   m/yr:  0.000000  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   57325;
+     horizon_map_az =  0.0 deg:  5.0: 10.0: 15.0: 25.0: 30.0: 45.0: 65.0: 75.0:
+                                85.0:110.0:112.0:175.0:180.0:200.0:245.0:250.0;
+     horizon_map_el =  3.0 deg:  5.0:  7.0:  9.0:  8.0:  6.0:  7.0:  5.0:  4.0:
+                                 3.0:  6.0:  3.0:  6.0:  7.0:  3.0:  4.0:  3.0;
+enddef;
+*
+def KVNUS;
+     site_type = fixed;
+     site_name = KVNUS;
+     site_ID = Ku;
+*    elev=  161.33 long=-129:14:59. lat= 35:32:44.2
+     site_position =-3287268.60270 m: 4023450.10080 m: 3687379.95800 m;
+     site_velocity =  0.000000   m/yr:  0.000000   m/yr:  0.000000  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   57325;
+     horizon_map_az =  0.0 deg:  5.0: 10.0: 20.0: 30.0: 35.0: 40.0:175.0:180.0:
+                               185.0:190.0:195.0:200.0:205.0:210.0:215.0:230.0:
+                               235.0:248.0:255.0:265.0:270.0:280.0:285.0:290.0:
+                               305.0:310.0:337.0:345.0:350.0;
+     horizon_map_el =  7.0 deg:  3.0:  7.0:  6.0:  2.0:  3.0:  2.0:  3.0:  4.0:
+                                 4.0:  5.0:  4.0:  5.0:  6.0:  7.0:  8.0:  9.0:
+                                 8.0:  9.0:  7.0:  6.0:  4.0:  5.0:  3.0:  2.0:
+                                 3.0:  2.0:  3.0:  2.0:  7.0;
+enddef;
+*
+def KVNTN;
+     site_type = fixed;
+     site_name = KVNTN;
+     site_ID = Kt;
+*    elev=  441.36 long=-126:27:34. lat= 33:17:20.4
+     site_position =-3171731.60550 m: 4292678.49180 m: 3481038.75310 m;
+     site_velocity =  0.000000   m/yr:  0.000000   m/yr:  0.000000  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   57325;
+     horizon_map_az =  0.0 deg: 35.0: 39.0: 45.0: 50.0: 55.0: 60.0: 70.0: 80.0:
+                                90.0:295.0:310.0:315.0:320.0:330.0:335.0:345.0;
+     horizon_map_el =  9.0 deg:  8.0:  9.0:  8.0:  7.0:  6.0:  5.0:  4.0:  3.0:
+                                 2.0:  3.0:  4.0:  5.0:  6.0:  7.0:  8.0:  9.0;
+enddef;
+*
+def VERAMZSW;
+     site_type = fixed;
+     site_name = VERAMZSW;
+     site_ID = Vm;
+*    elev=  116.46 long=-141:07:57. lat= 39:08:00.7
+     site_position =-3857244.71050 m: 3108782.96540 m: 4003899.17040 m;
+     site_velocity =  0.017390   m/yr:  0.016510   m/yr: -0.011530  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   54466;
+enddef;
+*
+def VERAIRIK;
+     site_type = fixed;
+     site_name = VERAIRIK;
+     site_ID = Vr;
+*    elev=  573.57 long=-130:26:23. lat= 31:44:52.4
+     site_position =-3521719.84240 m: 4132174.61890 m: 3336994.11110 m;
+     site_velocity = -0.024040   m/yr:  0.003000   m/yr: -0.006360  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   51544;
+enddef;
+*
+def VERAOGSW;
+     site_type = fixed;
+     site_name = VERAOGSW;
+     site_ID = Vo;
+*    elev=  273.10 long=-142:12:59. lat= 27:05:30.5
+     site_position =-4491068.52590 m: 3481545.10140 m: 2887399.75440 m;
+     site_velocity = -0.024040   m/yr:  0.003000   m/yr: -0.006360  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   51544;
+enddef;
+*
+def VERAISGK;
+     site_type = fixed;
+     site_name = VERAISGK;
+     site_ID = Vs;
+*    elev=   65.09 long=-124:10:15. lat= 24:24:43.8
+     site_position =-3263995.19030 m: 4808056.31150 m: 2619948.74750 m;
+     site_velocity = -0.043980   m/yr:  0.003960   m/yr: -0.046310  m/yr;
+*    First line below is VEX standard format.  Use only when readers are ready.
+*    site_position_epoch = 2015y303d;
+     site_position_epoch =   54466;
+enddef;
+*------------------------------------------------------------------------------
+$ANTENNA;
+*
+def KVNYS;
+     axis_type = az : el;
+     antenna_motion = el : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     antenna_motion = az : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     axis_offset =    0.00000 m;
+enddef;
+*
+def KVNUS;
+     axis_type = az : el;
+     antenna_motion = el : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     antenna_motion = az : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     axis_offset =    0.00000 m;
+enddef;
+*
+def KVNTN;
+     axis_type = az : el;
+     antenna_motion = el : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     antenna_motion = az : 177.0 deg/min :  2 sec;  *    3.000 deg/sec/sec
+     axis_offset =    0.00000 m;
+enddef;
+*
+def VERAMZSW;
+     axis_type = az : el;
+     antenna_motion = el : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     antenna_motion = az : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     axis_offset =    0.00300 m;
+enddef;
+*
+def VERAIRIK;
+     axis_type = az : el;
+     antenna_motion = el : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     antenna_motion = az : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     axis_offset =    0.00000 m;
+enddef;
+*
+def VERAOGSW;
+     axis_type = az : el;
+     antenna_motion = el : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     antenna_motion = az : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     axis_offset =    0.00000 m;
+enddef;
+*
+def VERAISGK;
+     axis_type = az : el;
+     antenna_motion = el : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     antenna_motion = az : 180.0 deg/min :  2 sec;  *    2.000 deg/sec/sec
+     axis_offset =    0.02800 m;
+enddef;
+*
+*------------------------------------------------------------------------------
+$DAS;
+*
+def 2NONE+MARK5B<;
+     record_transport_type = Mark5B;
+     electronics_rack_type = none;
+     number_drives = 2;
+     headstack = 1 :            : 0 ;
+     headstack = 2 :            : 1 ;
+     tape_motion = adaptive : 0 min: 0 min: 10 sec;
+enddef;
+*------------------------------------------------------------------------------
+$MODE;
+*
+def VERA7MM;
+     ref $PROCEDURES = PROC1:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ1:Vm:Vr:Vo:Vs;
+     ref $IF = IF_K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7MM_L;
+     ref $PROCEDURES = PROC3:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ1:Vm:Vr:Vo:Vs;
+     ref $IF = IF_K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7MM_F;
+     ref $PROCEDURES = PROC4:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ1:Vm:Vr:Vo:Vs;
+     ref $IF = IF_K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7MM_C;
+     ref $PROCEDURES = PROC6:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ1:Vm:Vr:Vo:Vs;
+     ref $IF = IF_K:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7SIO2;
+     ref $PROCEDURES = PROC1:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7SIO2_L;
+     ref $PROCEDURES = PROC3:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7SIO2_F;
+     ref $PROCEDURES = PROC4:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+def VERA7SIO2_C;
+     ref $PROCEDURES = PROC6:Vm:Vr:Vo:Vs:Ky:Ku:Kt;
+     ref $FREQ = FREQ2:Vm:Vr:Vo:Vs;
+     ref $IF = IF_Q:Vm:Vr:Vo:Vs;
+     ref $BBC = BBC1:Vm:Vr:Vo:Vs;
+     ref $FREQ = FREQ_KVN:Ky:Ku:Kt;
+     ref $IF = IF_KVN:Ky:Ku:Kt;
+     ref $BBC = BBC_KVN:Ky:Ku:Kt;
+     ref $DAS = START/STOP:Ky:Ku:Kt;
+enddef;
+*
+*------------------------------------------------------------------------------
+$STATION;
+*
+def Ky;
+     ref $SITE = KVNYS;
+     ref $ANTENNA = KVNYS;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Ku;
+     ref $SITE = KVNUS;
+     ref $ANTENNA = KVNUS;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Kt;
+     ref $SITE = KVNTN;
+     ref $ANTENNA = KVNTN;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Vm;
+     ref $SITE = VERAMZSW;
+     ref $ANTENNA = VERAMZSW;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Vr;
+     ref $SITE = VERAIRIK;
+     ref $ANTENNA = VERAIRIK;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Vo;
+     ref $SITE = VERAOGSW;
+     ref $ANTENNA = VERAOGSW;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*
+def Vs;
+     ref $SITE = VERAISGK;
+     ref $ANTENNA = VERAISGK;
+     ref $DAS = 2NONE+MARK5B<;
+enddef;
+*------------------------------------------------------------------------------
+$PROCEDURES;
+*
+def STD_2BEAM;
+* add for VERA
+     tape_change =  120 sec;
+     beam1 = on;
+     beam2 = on;
+enddef;
+*
+def PROC1;
+     preob_cal = on : 30 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+*     postob_cal = on : 20 sec : R_SKY;
+enddef;
+*
+def PROC2;
+     preob_cal = on : 120 sec : TAPE_C;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on : 30 sec : NSC : on : 30 sec;
+*     postob_cal = on : 20 sec : R_SKY;
+enddef;
+def PROC3;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on : 30 sec : NSC : on : 30 sec;
+*     postob_cal = on : 20 sec : R_SKY;
+     postob_cal = on : 5 sec : SECZ : 60 sec;
+enddef;
+*
+def PROC4;
+     preob_cal = on : 5 sec : SECZ : 840 sec ;
+     preob_cal = on : 20 sec : R_SKY;
+     midob_cal  = on :  30 sec : NSC : on : 30 sec;
+enddef;
+*
+def PROC5;
+     preob_cal = on : 20 sec : R_SKY;
+enddef;
+*
+def PROC6;
+     midob_cal  = on : 30 sec : NSC : on : 30 sec;
+enddef;
+*
+*------------------------------------------------------------------------------
+$SOURCE;
+*
+def M87;
+     source_name = M87;
+     ra = 12h30m49.4233820s; dec =  12d23'28.043670"; ref_coord_frame = J2000;
+enddef;
+*
+def 3C84;
+     source_name = 3C84;
+     ra = 03h19m48.1601140s; dec =  41d30'42.105610"; ref_coord_frame = J2000;
+enddef;
+**************************
+* Add source information below.
+*
+def NRAO150;
+     source_name = NRAO150;
+     ra = 03h59m29.7472750s; dec =  50d57'50.161830"; ref_coord_frame = J2000;
+enddef;
+*
+def BX-CAM;
+     source_name = BX-CAM;
+     ra = 05h46m44.3870000s; dec =  69d58'23.920000"; ref_coord_frame = J2000;
+enddef;
+*
+def J0721+7120;
+     source_name = J0721+7120;
+     ra = 07h21m53.4484800s; dec =  71d20'36.363390"; ref_coord_frame = J2000;
+enddef;
+*
+def BLLAC;
+     source_name = BLLAC;
+     ra = 22h02m43.2913720s; dec =  42d16'39.979960"; ref_coord_frame = J2000;
+enddef;
+*
+def NML-CYG;
+     source_name = NML-CYG;
+     ra = 20h46m25.5400000s; dec =  40d06'59.400000"; ref_coord_frame = J2000;
+enddef;
+*
+def 3C418;
+     source_name = 3C418;
+     ra = 20h38m37.0347260s; dec =  51d19'12.662560"; ref_coord_frame = J2000;
+enddef;
+*
+def J0524+7034;
+     source_name = J0524+7034;
+     ra = 05h24m13.433339s; dec = +70d34'52.90577"; ref_coord_frame = J2000;
+enddef;
+*
+def BX-CAMD1;
+     source_name = BX-CAMD1;
+     ra = 07h38m38.50s;     dec = +70d42'44.5"    ; ref_coord_frame = J2000;
+enddef;
+*
+def BX-CAMD2;
+     source_name = BX-CAMD2;
+     ra = 07h02m27.84s;     dec = +71d59'44.9"    ; ref_coord_frame = J2000;
+enddef;
+*
+*** For DUMMY of NRAO150
+def CALDUM2;
+     source_name = CALDUM2;  
+     ra = 03h47m06.06s;     dec = +51d17'27.1"    ; ref_coord_frame = J2000;
+enddef;
+*
+*------------------------------------------------------------------------------
+$FREQ;
+*
+*#### Edit frequency setups for BOTH of VERA and KVN. ####
+* Do not change the mode codes, but the frequency setup lines onlhy.
+def FREQ1;
+     sample_rate = 512.000 Ms/sec;
+     chan_def = &R1: 22228.000000 MHz: U: 16.00 MHz: &S01 : &BBCa : &NoCal;
+     chan_def = &R2: 22004.000000 MHz: U: 16.00 MHz: &S02 : &BBCb : &NoCal;
+     chan_def = &R2: 22036.000000 MHz: U: 16.00 MHz: &S03 : &BBCb : &NoCal;
+     chan_def = &R2: 22068.000000 MHz: U: 16.00 MHz: &S04 : &BBCb : &NoCal;
+     chan_def = &R2: 22100.000000 MHz: U: 16.00 MHz: &S05 : &BBCb : &NoCal;
+     chan_def = &R2: 22132.000000 MHz: U: 16.00 MHz: &S06 : &BBCb : &NoCal;
+     chan_def = &R2: 22164.000000 MHz: U: 16.00 MHz: &S07 : &BBCb : &NoCal;
+     chan_def = &R2: 22196.000000 MHz: U: 16.00 MHz: &S08 : &BBCb : &NoCal;
+     chan_def = &R2: 22228.000000 MHz: U: 16.00 MHz: &S09 : &BBCb : &NoCal;
+     chan_def = &R2: 22260.000000 MHz: U: 16.00 MHz: &S10 : &BBCb : &NoCal;
+     chan_def = &R2: 22292.000000 MHz: U: 16.00 MHz: &S11 : &BBCb : &NoCal;
+     chan_def = &R2: 22324.000000 MHz: U: 16.00 MHz: &S12 : &BBCb : &NoCal;
+     chan_def = &R2: 22356.000000 MHz: U: 16.00 MHz: &S13 : &BBCb : &NoCal;
+     chan_def = &R2: 22388.000000 MHz: U: 16.00 MHz: &S14 : &BBCb : &NoCal;
+     chan_def = &R2: 22420.000000 MHz: U: 16.00 MHz: &S15 : &BBCb : &NoCal;
+     chan_def = &R2: 22452.000000 MHz: U: 16.00 MHz: &S16 : &BBCb : &NoCal;
+enddef;
+*
+def FREQ2;
+     sample_rate = 512.000 Ms/sec;
+     chan_def = &R1: 42827.000000 MHz: L: 16.00 MHz: &S01 : &BBCa : &NoCal;
+     chan_def = &R2: 42827.000000 MHz: L: 16.00 MHz: &S02 : &BBCb : &NoCal;
+     chan_def = &R2: 42827.000000 MHz: U: 16.00 MHz: &S03 : &BBCb : &NoCal;
+     chan_def = &R2: 42859.000000 MHz: U: 16.00 MHz: &S04 : &BBCb : &NoCal;
+     chan_def = &R2: 42891.000000 MHz: U: 16.00 MHz: &S05 : &BBCb : &NoCal;
+     chan_def = &R2: 42923.000000 MHz: U: 16.00 MHz: &S06 : &BBCb : &NoCal;
+     chan_def = &R2: 42955.000000 MHz: U: 16.00 MHz: &S07 : &BBCb : &NoCal;
+     chan_def = &R2: 42987.000000 MHz: U: 16.00 MHz: &S08 : &BBCb : &NoCal;
+     chan_def = &R1: 43115.000000 MHz: U: 16.00 MHz: &S09 : &BBCa : &NoCal;
+     chan_def = &R2: 43019.000000 MHz: U: 16.00 MHz: &S10 : &BBCb : &NoCal;
+     chan_def = &R2: 43051.000000 MHz: U: 16.00 MHz: &S11 : &BBCb : &NoCal;
+     chan_def = &R2: 43083.000000 MHz: U: 16.00 MHz: &S12 : &BBCb : &NoCal;
+     chan_def = &R2: 43115.000000 MHz: U: 16.00 MHz: &S13 : &BBCb : &NoCal;
+     chan_def = &R2: 43147.000000 MHz: U: 16.00 MHz: &S14 : &BBCb : &NoCal;
+     chan_def = &R2: 43179.000000 MHz: U: 16.00 MHz: &S15 : &BBCb : &NoCal;
+     chan_def = &R2: 43211.000000 MHz: U: 16.00 MHz: &S16 : &BBCb : &NoCal;
+enddef;
+*
+def FREQ_KVN;
+     sample_rate =  512.000 Ms/sec;
+     chan_def = : 21812.00 MHz : U :  16.00 MHz : &CH01 : &BBC01 : &NoCal; *Lcp
+     chan_def = : 22068.00 MHz : U :  16.00 MHz : &CH02 : &BBC01 : &NoCal; *Lcp
+     chan_def = : 22196.00 MHz : U :  16.00 MHz : &CH03 : &BBC01 : &NoCal; *Lcp
+     chan_def = : 22228.00 MHz : U :  16.00 MHz : &CH04 : &BBC01 : &NoCal; *Lcp
+     chan_def = : 42827.00 MHz : L :  16.00 MHz : &CH05 : &BBC02 : &NoCal; *Lcp
+     chan_def = : 42859.00 MHz : U :  16.00 MHz : &CH06 : &BBC02 : &NoCal; *Lcp
+     chan_def = : 42891.00 MHz : L :  16.00 MHz : &CH07 : &BBC02 : &NoCal; *Lcp
+     chan_def = : 43115.00 MHz : U :  16.00 MHz : &CH08 : &BBC02 : &NoCal; *Lcp
+     chan_def = : 86237.00 MHz : L :  16.00 MHz : &CH09 : &BBC03 : &NoCal; *Lcp
+     chan_def = : 86237.00 MHz : U :  16.00 MHz : &CH10 : &BBC03 : &NoCal; *Lcp
+     chan_def = : 86269.00 MHz : L :  16.00 MHz : &CH11 : &BBC03 : &NoCal; *Lcp
+     chan_def = : 86269.00 MHz : U :  16.00 MHz : &CH12 : &BBC03 : &NoCal; *Lcp
+     chan_def = :129353.00 MHz : L :  16.00 MHz : &CH13 : &BBC04 : &NoCal; *Lcp
+     chan_def = :129353.00 MHz : U :  16.00 MHz : &CH14 : &BBC04 : &NoCal; *Lcp
+     chan_def = :129385.00 MHz : L :  16.00 MHz : &CH15 : &BBC04 : &NoCal; *Lcp
+     chan_def = :129385.00 MHz : U :  16.00 MHz : &CH16 : &BBC04 : &NoCal; *Lcp
+enddef;
+*------------------------------------------------------------------------------
+$IF;
+*
+def IF_K;
+     if_def = &IF_R1: B1: L: 16800.0 MHz: U ;
+     if_def = &IF_R2: B2: L: 16800.0 MHz: U ;
+enddef;
+*
+def IF_Q;
+     if_def = &IF_R1: B1: L: 37500.0 MHz: U ;
+     if_def = &IF_R2: B2: L: 37500.0 MHz: U ;
+enddef;
+*
+def IF_KVN;
+* mode =  1    stations =Ky:Ku:Kt:Vm:Vr:Vo:Vs
+     if_def = &IF_R1 : R1 : L : 13250.00 MHz : U ; * PCall off!   0.0   0.0  NA     0 NA
+     if_def = &IF_R2 : R2 : L : 34110.00 MHz : U ; * PCall off!   0.0   0.0  NA     0 NA
+     if_def = &IF_R3 : R3 : L : 77000.00 MHz : U ; * PCall off!   0.0   0.0  NA     0 NA
+     if_def = &IF_R4 : R4 : L :138000.00 MHz : L ; * PCall off!   0.0   0.0  NA     0 NA
+enddef;
+*------------------------------------------------------------------------------
+$BBC;
+*
+def BBC1;
+     BBC_assign = &BBCa:  1: &IF_R1;
+     BBC_assign = &BBCb:  2: &IF_R2;
+enddef;
+*
+def BBC_KVN;
+* mode =  1    stations =Ky:Ku:Kt:Vm:Vr:Vo:Vs
+     BBC_assign = &BBC01 :  1 : &IF_R1;
+     BBC_assign = &BBC02 :  2 : &IF_R2;
+     BBC_assign = &BBC03 :  3 : &IF_R3;
+     BBC_assign = &BBC04 :  4 : &IF_R4;
+enddef;
+*------------------------------------------------------------------------------
+$PHASE_CAL_DETECT;
+*
+def NoDetect;
+* mode =  1    stations =Ky:Ku:Kt:Vm:Vr:Vo:Vs
+     phase_cal_detect = &NoCal;
+enddef;
+*------------------------------------------------------------------------------
+$TRACKS;
+*
+def MARK5B.16Ch2bit1to1;
+* mode =  1    stations =Ky:Ku:Kt:Vm:Vr:Vo:Vs
+*    format = MARK5B, and fan-out = 1
+*    mode requires  32.00Mb/s/tr; stations using disks
+     track_frame_format = MARK5B;
+     fanout_def =   : &CH01 : sign : 1:  2;
+     fanout_def =   : &CH01 :  mag : 1:  3;
+     fanout_def =   : &CH02 : sign : 1:  4;
+     fanout_def =   : &CH02 :  mag : 1:  5;
+     fanout_def =   : &CH03 : sign : 1:  6;
+     fanout_def =   : &CH03 :  mag : 1:  7;
+     fanout_def =   : &CH04 : sign : 1:  8;
+     fanout_def =   : &CH04 :  mag : 1:  9;
+     fanout_def =   : &CH05 : sign : 1: 10;
+     fanout_def =   : &CH05 :  mag : 1: 11;
+     fanout_def =   : &CH06 : sign : 1: 12;
+     fanout_def =   : &CH06 :  mag : 1: 13;
+     fanout_def =   : &CH07 : sign : 1: 14;
+     fanout_def =   : &CH07 :  mag : 1: 15;
+     fanout_def =   : &CH08 : sign : 1: 16;
+     fanout_def =   : &CH08 :  mag : 1: 17;
+     fanout_def =   : &CH09 : sign : 1: 18;
+     fanout_def =   : &CH09 :  mag : 1: 19;
+     fanout_def =   : &CH10 : sign : 1: 20;
+     fanout_def =   : &CH10 :  mag : 1: 21;
+     fanout_def =   : &CH11 : sign : 1: 22;
+     fanout_def =   : &CH11 :  mag : 1: 23;
+     fanout_def =   : &CH12 : sign : 1: 24;
+     fanout_def =   : &CH12 :  mag : 1: 25;
+     fanout_def =   : &CH13 : sign : 1: 26;
+     fanout_def =   : &CH13 :  mag : 1: 27;
+     fanout_def =   : &CH14 : sign : 1: 28;
+     fanout_def =   : &CH14 :  mag : 1: 29;
+     fanout_def =   : &CH15 : sign : 1: 30;
+     fanout_def =   : &CH15 :  mag : 1: 31;
+     fanout_def =   : &CH16 : sign : 1: 32;
+     fanout_def =   : &CH16 :  mag : 1: 33;
+enddef;
+*------------------------------------------------------------------------------
+$SCHED;
+*#### Add scan pattern for VERA. ####
+scan No0001;
+     start=2018y315d18h10m00s; mode=VERA7MM_F; source1=J0721+7120; source2=BX-CAMD2;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0002;
+     start=2018y315d18h13m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0003;
+     start=2018y315d18h20m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0004;
+     start=2018y315d18h23m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0005;
+     start=2018y315d18h31m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0006;
+     start=2018y315d18h34m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0007;
+     start=2018y315d18h41m30s; mode=VERA7MM; source1=BX-CAMD1; source2=J0721+7120;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0008;
+     start=2018y315d18h44m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0009;
+     start=2018y315d18h52m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0010;
+     start=2018y315d18h55m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0011;
+     start=2018y315d19h02m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0012;
+     start=2018y315d19h05m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0013;
+     start=2018y315d19h13m00s; mode=VERA7MM; source1=J0721+7120; source2=BX-CAMD2;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0014;
+     start=2018y315d19h16m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0015;
+     start=2018y315d19h23m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0016;
+     start=2018y315d19h26m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0017;
+     start=2018y315d19h34m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0018;
+     start=2018y315d19h37m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0019;
+     start=2018y315d19h44m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0020;
+     start=2018y315d19h47m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0021;
+     start=2018y315d19h55m00s; mode=VERA7MM; source1=BX-CAMD1; source2=J0721+7120;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0022;
+     start=2018y315d20h00m00s; mode=VERA7MM; source1=NRAO150; source2=CALDUM2;
+     station=Vr:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  180 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0023;
+     start=2018y315d20h04m00s; mode=VERA7MM; source1=J0721+7120; source2=BX-CAMD2;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0024;
+     start=2018y315d20h07m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0025;
+     start=2018y315d20h14m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0026;
+     start=2018y315d20h17m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0027;
+     start=2018y315d20h24m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0028;
+     start=2018y315d20h27m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0029;
+     start=2018y315d20h34m30s; mode=VERA7MM; source1=BX-CAMD1; source2=J0721+7120;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0030;
+     start=2018y315d20h37m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0031;
+     start=2018y315d20h44m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0032;
+     start=2018y315d20h47m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0033;
+     start=2018y315d20h54m30s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0034;
+     start=2018y315d20h57m00s; mode=VERA7MM_C; source1=BX-CAM; source2=J0524+7034;
+     station=Vr:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  420 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0035;
+     start=2018y315d21h04m30s; mode=VERA7MM; source1=J0721+7120; source2=BX-CAMD2;
+     station=Vr:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  120 sec:    0 sec:   :       : :    : 1;
+endscan;
+scan No0036;
+     start=2018y315d21h07m30s; mode=VERA7MM_L; source1=NRAO150; source2=CALDUM2;
+     station=Vr:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vs:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vm:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Vo:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ky:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Ku:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+     station=Kt:    0 sec:  150 sec:    0 sec:   :       : :    : 1;
+endscan;
