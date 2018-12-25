@@ -58,6 +58,7 @@ error_flag = "stop_flag"
 
 device_file_flag  = 'file_selected'
 device_file_name  = 'sample.device'
+dat_file_name  = 'sample.dat'
 #-------------------------------------------#
 
 
@@ -136,6 +137,8 @@ for data in data_list:
 			device_file_flag  = data.split('=')[1].split()[0]
 		if "device_file_name" == data.strip()[0:16]:
 			device_file_name  = data.split('=')[1].split()[0]
+		if "dat_file_name" == data.strip()[0:13]:
+			dat_file_name  = data.split('=')[1].split()[0]
 
 	else:
 		pass
@@ -643,3 +646,28 @@ start_file.write("SAM_Sub_Array=false\n")
 start_file.write("SAM_High_Resolution=false\n")
 start_file.write("TMULT_Rot_Angle=0.0\n")
 start_file.write("SAM_IPTIM=0.1\n")
+
+
+if device_file_flag == "file_date":
+	dat_file_name = Observation_Name[:-1] + "_" + str(Create_Date.year)[2:] + "%02d%02d%02d%02d%02d.dat" %(int(str(Create_Date.month)), int(str(Create_Date.day)), int(str(Create_Date.hour)), int(str(Create_Date.minute)), int(str(Create_Date.second)))
+else:
+	pass
+
+dat_file = open(dat_file_name, "w")
+dat_file.write("VLBI\n")
+dat_file.write("01,#	,,\n")
+dat_file.write("02,#	,,\n")
+dat_file.write("03,H20ch1,USB,9000.000\n")
+dat_file.write("04,#	,,\n")
+dat_file.write("05,H20ch2,USB,9000.000\n")
+dat_file.write("06,#	,,\n")
+dat_file.write("07,H40,USB,9000.000\n")
+dat_file.write("08,#	,,\n")
+dat_file.write("09,#	,,\n")
+dat_file.write("10,#	,,\n")
+dat_file.write("11,#	,,\n")
+dat_file.write("12,#	,,\n")
+dat_file.write("13,#	,,\n")
+dat_file.write("14,#	,,\n")
+dat_file.write("15,#	,,\n")
+dat_file.write("16,#	,,\n")

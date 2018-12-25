@@ -62,6 +62,7 @@ start_file_name = sample.start
 #---------- 任意のファイル名で作成する場合 --------#
 device_file_flag = file_selected
 device_file_name = sample.ndevice
+dat_file_name = sample.dat
 
 
 #---------- 1SCAN目追尾開始の為に必要なアンテナを動かす時間(s) ----------#
