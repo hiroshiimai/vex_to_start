@@ -20,8 +20,8 @@ Station_Name = Nb
 #---------- .vexファイルに従う場合に使用 ----------#
 #start_time_flag = original_start
 #---------- 任意の時間で観測を開始する場合に使用 ----------#
-start_time_flag = any_start
-any_time = 2019y075d08h00m00s
+#start_time_flag = any_start
+#any_time = 2019y075d08h00m00s
 #---------- 現時刻から指定の時間後に観測する場合に使用 ----------#
 # 注意：２つのスクリプトで意味が異なる。
 #   vex_to_start: vex fileに記載されたスキャンのうち、
@@ -37,8 +37,8 @@ after_day = 0
 after_hour = 23
 after_minute = 40
 
-#start_time_flag = any_start_vex
-#any_time = 2018y075d08h00m00s
+start_time_flag = any_start_vex
+any_time = 2018y075d08h00m00s
 
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
@@ -87,5 +87,5 @@ error_flag = skip_flag
 
 #----------- VEX to VEX param ---------#
 #---------- 書き込むファイル名 ----------#
-write_vex_file_name = k18hi01i_181017_kvn.vex
-
+#write_vex_file_name = k18hi01i_181017_kvn.vex
+write_vex_file_name = sample.vex

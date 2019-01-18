@@ -417,14 +417,13 @@ for i in range(len(PROCEDURES_Start_index)):
 		PROCEDURES_LIST[i].append(0)
 
 
-
 if start_time_flag == 'any_start_vex':
 	time_str =  str_time_to_time(any_time)
 	time_vex= datetime.datetime(int(time_str[0]), int(time_str[1]), int(time_str[2]), int(time_str[3]), int(time_str[4]), int(time_str[5]))
-	time_difference = datetime.datetime(int(str_time_to_time(SCHED_LIST[0][0][6:-1])[0]),int(str_time_to_time(SCHED_LIST[0][0][6:-1])[1]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[2]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[3]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[4]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[5])) - time_vex
+	time_difference = datetime.datetime(int(str_time_to_time(SCHED_LIST[0][0][0:-1])[0]),int(str_time_to_time(SCHED_LIST[0][0][0:-1])[1]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[2]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[3]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[4]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[5])) - time_vex
 if start_time_flag == 'after_start_vex':
 	time_vex = datetime.datetime.today() + datetime.timedelta(days=after_day, hours=after_hour, minutes=after_minute)
-	time_difference = datetime.datetime(int(str_time_to_time(SCHED_LIST[0][0][6:-1])[0]),int(str_time_to_time(SCHED_LIST[0][0][6:-1])[1]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[2]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[3]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[4]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[5])) - time_vex
+	time_difference = datetime.datetime(int(str_time_to_time(SCHED_LIST[0][0][0:-1])[0]),int(str_time_to_time(SCHED_LIST[0][0][0:-1])[1]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[2]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[3]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[4]), int(str_time_to_time(SCHED_LIST[0][0][0:-1])[5])) - time_vex
 
 #time_difference = datetime.datetime(int(str_time_to_time(SCHED_LIST[0][0][6:-1])[0]),int(str_time_to_time(SCHED_LIST[0][0][6:-1])[1]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[2]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[3]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[4]), int(str_time_to_time(SCHED_LIST[0][0][6:-1])[5])) - datetime.datetime(int(str_time_to_time('2018y136d14h12m00s')[0]),int(str_time_to_time('2018y136d14h12m00s')[1]), int(str_time_to_time('2018y136d14h12m00s')[2]), int(str_time_to_time('2018y136d14h12m00s')[3]), int(str_time_to_time('2018y136d14h12m00s')[4]), int(str_time_to_time('2018y136d14h12m00s')[5]))
 
@@ -434,9 +433,11 @@ if start_time_flag == 'after_start_vex':
 start_file = open(write_vex_file_name, "w")
 for data in data_list:
 	#if ''.join(data.split()) in SCHED_LIST:
-	if 'start=' in ''.join(data.split()) and ('exper_nominal_start' in ''.join(data.split())) == 0:
-		date_txt = datetime.datetime(int(str_time_to_time(''.join(data.split())[6:-1])[0]),int(str_time_to_time(''.join(data.split())[6:-1])[1]), int(str_time_to_time(''.join(data.split())[6:-1])[2]), int(str_time_to_time(''.join(data.split())[6:-1])[3]), int(str_time_to_time(''.join(data.split())[6:-1])[4]), int(str_time_to_time(''.join(data.split())[6:-1])[5]))
-
+	if ''.join(data.split())[0] == '*':
+		start_file.write(data)
+	elif 'start=' in ''.join(data.split()) and ('exper_nominal_start' in ''.join(data.split())) == 0:
+		print ''.join(data.split())[6:24]
+		date_txt = datetime.datetime(int(str_time_to_time(''.join(data.split())[6:24])[0]),int(str_time_to_time(''.join(data.split())[6:24])[1]), int(str_time_to_time(''.join(data.split())[6:24])[2]), int(str_time_to_time(''.join(data.split())[6:24])[3]), int(str_time_to_time(''.join(data.split())[6:24])[4]), int(str_time_to_time(''.join(data.split())[6:24])[5]))
 		if start_time_flag == 'after_start_ref_vex':
 			write_txt = date_txt + datetime.timedelta(days = int(after_day), hours = int(after_hour), minutes = int(after_minute))
 		else:

@@ -37,9 +37,9 @@ TIME_MOVE_ANTENNA = 1200
 #---------- vex file name ----------#
 #---------- 使用するvexファイル名を記入 ----------#
 #vex_file_name = r16136a.vex
-#vex_file_name = k18hi01d_180507_kvn.vex
+vex_file_name = k18hi01d_180507_kvn.vex
 #vex_file_name = a18075a_r1.vex
-vex_file_name = r18271a.vex
+#vex_file_name = r18271a.vex
 #vex_file_name = r18313a.vex
 
 
