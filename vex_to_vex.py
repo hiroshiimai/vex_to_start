@@ -170,11 +170,12 @@ EXPER_DATA = data_list[EXPER_INDEX_START:EXPER_INDEX_END]
 
 #何に入れるかは別として、ここに$EXPERの観測ネームがある。
 for data in EXPER_DATA:
-	if  "exper_nominal_start" in data[5:24]:
-		OBSERVATION_START_TIME = data[25:-1]
+	if  "exper_nominal_start" in ''.join(data.split()):
+		OBSERVATION_START_TIME = ''.join(data.split())[20:-1]
 		#print OBSERVATION_START_TIME
-	if  "exper_nominal_stop" in data[5:23]:
-		OBSERVATION_STOP_TIME = data[24:-1]
+	if  "exper_nominal_stop" in ''.join(data.split()):
+		OBSERVATION_STOP_TIME = ''.join(data.split())[19:-1]
+		#print OBSERVATION_STOP_TIME
 
 
 

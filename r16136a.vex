@@ -18,12 +18,12 @@ def r16136a;
      PI_name = "Jun-ichi Nakashima";
      PI_email = hiroimai@sci.kagoshima-u.ac.jp(H;
 *    address:   Ural Federal University
-*                
-*                
-*                
+*
+*
+*
 *    phone:     +81 99 285 8085
 *    during obs:+81 99 285 8085
-*    fax:        
+*    fax:
 *
 *    year, doy: 2016, 136
 *    date     : Sun 15 May 2016
@@ -41,7 +41,7 @@ def r16136a;
 *    distrib_medium : DAT
 *    distrib_format : FITS
 *    source_pos_cat : STANDARD
-*    distribute_to  : 
+*    distribute_to  :
 *                     Hiroshi Imai
 *                     Department of Physics and Astronomy
 *                     Graduate School of Science and Engineering
@@ -276,7 +276,7 @@ $SOURCE;
 *
 def J1751+09;
      source_name = J1751+09;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 17h51m32.8185750s; dec =  09d39'00.728400"; ref_coord_frame = J2000;
 *    ra = 17h49m10.3879319s; dec =  09d39'42.825847"; ref_coord_frame = B1950;
 *    ra = 17h52m20.3159555s; dec =  09d38'52.158118"; ref_coord_frame = Date;
@@ -284,7 +284,7 @@ enddef;
 *
 def 3C454.3;
      source_name = 3C454.3;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 22h53m57.7479430s; dec =  16d08'53.560870"; ref_coord_frame = J2000;
 *    ra = 22h51m29.5197435s; dec =  15d52'54.348042"; ref_coord_frame = B1950;
 *    ra = 22h54m45.7953792s; dec =  16d13'59.359812"; ref_coord_frame = Date;
@@ -292,7 +292,7 @@ enddef;
 *
 def J1935+20;
      source_name = J1935+20;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 19h35m10.4729120s; dec =  20d31'54.154200"; ref_coord_frame = J2000;
 *    ra = 19h32m59.5582590s; dec =  20d25'14.217430"; ref_coord_frame = B1950;
 *    ra = 19h35m53.9292745s; dec =  20d34'04.489687"; ref_coord_frame = Date;
@@ -300,7 +300,7 @@ enddef;
 *
 def J1925+21;
      source_name = J1925+21;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 19h25m59.6053570s; dec =  21d06'26.162040"; ref_coord_frame = J2000;
 *    ra = 19h23m49.7923936s; dec =  21d00'23.304956"; ref_coord_frame = B1950;
 *    ra = 19h26m42.7473211s; dec =  21d08'24.604955"; ref_coord_frame = Date;
@@ -308,17 +308,17 @@ enddef;
 *
 def I19312;
      source_name = I19312;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 19h33m24.2432000s; dec =  19d56'55.606000"; ref_coord_frame = J2000;
 *    ra = 19h31m12.6964066s; dec =  19d50'22.799125"; ref_coord_frame = B1950;
 *    ra = 19h34m07.9068239s; dec =  19d59'03.833957"; ref_coord_frame = Date;
 *    velocity_wrt_LSR =      35.00 km/sec; * warning, only given here for 1st channel
-*    calculations used radio definition 
+*    calculations used radio definition
 enddef;
 *
 def R-AQL;
      source_name = R-AQL;
-*    this source had calibrator code:  
+*    this source had calibrator code:
      ra = 19h06m22.2550000s; dec =  08d13'47.600000"; ref_coord_frame = J2000;
 *    ra = 19h03m57.6970686s; dec =  08d09'06.451923"; ref_coord_frame = B1950;
 *    ra = 19h07m10.1736044s; dec =  08d15'23.354353"; ref_coord_frame = Date;
@@ -414,8 +414,8 @@ def NoRoll;
 enddef;
 *------------------------------------------------------------------------------
 $SCHED;
-* schedule section for experiment r16136a 
-* IRAS19312+1950 CH3OH and SiO                                            
+* schedule section for experiment r16136a
+* IRAS19312+1950 CH3OH and SiO
 scan No0001;
 *    start=2016y136d14h12m00s <= original start, modified for tape start.
      start=2016y136d14h11m55s; mode=Doppler@I19312; source=R-AQL;
