@@ -617,7 +617,7 @@ for scan in range(len(SCHED_Start_index)):
 
 
 		if scan == 0:
-			CULLENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+			CURRENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
 
 
 		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
@@ -655,19 +655,19 @@ for scan in range(len(SCHED_Start_index)):
 		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
-		CULLENT_TIME = OBSERVATION_BEFORE_TIME
+		CURRENT_TIME = OBSERVATION_BEFORE_TIME
 		start_file.write("WAIT_READY ANT\n")
 
 
 		if WAIT_MMC_TIME > 0:
 			start_file.write("EXECUTE MMC CMD(MCL)\n")
-			NEXT_TIME = CULLENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
-			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
+			NEXT_TIME = CURRENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
+			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
 
-			CULLENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
-			#end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+30)
+			CURRENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
+			#end_offset_time = CURRENT_TIME + datetime.timedelta(seconds=end_sec+30)
 			start_file.write("WAIT_READY ANT\n")
 			start_file.write("WAIT MMC\n")
 			start_file.write("EXECUTE MMC CMD(MOP)\n")
@@ -677,10 +677,10 @@ for scan in range(len(SCHED_Start_index)):
 
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
 		start_file.write("WAIT ANT VLBI\n")
 		start_file.write("\n")
-		CULLENT_TIME = end_offset_time
+		CURRENT_TIME = end_offset_time
 
 
 
@@ -771,7 +771,7 @@ for scan in range(len(SCHED_Start_index)):
 
 
 		if counter == 1:
-			CULLENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+			CURRENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
 
 
 		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
@@ -809,19 +809,19 @@ for scan in range(len(SCHED_Start_index)):
 		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
-		CULLENT_TIME = OBSERVATION_BEFORE_TIME
+		CURRENT_TIME = OBSERVATION_BEFORE_TIME
 		start_file.write("WAIT_READY ANT\n")
 
 
 		if WAIT_MMC_TIME > 0:
 			start_file.write("EXECUTE MMC CMD(MCL)\n")
-			NEXT_TIME = CULLENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
-			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
+			NEXT_TIME = CURRENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
+			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
 
-			CULLENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
-			#end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+30)
+			CURRENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
+			#end_offset_time = CURRENT_TIME + datetime.timedelta(seconds=end_sec+30)
 			start_file.write("WAIT_READY ANT\n")
 			start_file.write("WAIT MMC\n")
 			start_file.write("EXECUTE MMC CMD(MOP)\n")
@@ -831,11 +831,11 @@ for scan in range(len(SCHED_Start_index)):
 
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
 		start_file.write("WAIT ANT VLBI\n")
 		start_file.write("\n")
-		CULLENT_TIME = end_offset_time
-		critetia_time = CULLENT_TIME
+		CURRENT_TIME = end_offset_time
+		critetia_time = CURRENT_TIME
 
 
 
@@ -923,7 +923,7 @@ for scan in range(len(SCHED_Start_index)):
 
 
 		if counter == 1:
-			CULLENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
+			CURRENT_TIME = OBSERVATION_BEFORE_TIME - datetime.timedelta(seconds=TIME_MOVE_ANTENNA)
 
 
 		end_sec = int(SCHED_LIST[scan][3].split(':')[2].strip('sec'))
@@ -961,19 +961,19 @@ for scan in range(len(SCHED_Start_index)):
 		start_file.write("SET GRPTRK EPOCH \'" + SOURCE_LIST[SOURCE_NUMBER][3] + "'\n")
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, OBSERVATION_BEFORE_TIME.year, OBSERVATION_BEFORE_TIME.month, OBSERVATION_BEFORE_TIME.day, OBSERVATION_BEFORE_TIME.hour, OBSERVATION_BEFORE_TIME.minute, OBSERVATION_BEFORE_TIME.second))
 
-		CULLENT_TIME = OBSERVATION_BEFORE_TIME
+		CURRENT_TIME = OBSERVATION_BEFORE_TIME
 		start_file.write("WAIT_READY ANT\n")
 
 
 		if WAIT_MMC_TIME > 0:
 			start_file.write("EXECUTE MMC CMD(MCL)\n")
-			NEXT_TIME = CULLENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
-			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
+			NEXT_TIME = CURRENT_TIME + datetime.timedelta(seconds=WAIT_MMC_TIME)
+			start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, NEXT_TIME.year, NEXT_TIME.month, NEXT_TIME.day, NEXT_TIME.hour, NEXT_TIME.minute, NEXT_TIME.second))
 
-			CULLENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
-			#end_offset_time = CULLENT_TIME + datetime.timedelta(seconds=end_sec+30)
+			CURRENT_TIME = NEXT_TIME + datetime.timedelta(seconds=after_mmc)
+			#end_offset_time = CURRENT_TIME + datetime.timedelta(seconds=end_sec+30)
 			start_file.write("WAIT_READY ANT\n")
 			start_file.write("WAIT MMC\n")
 			start_file.write("EXECUTE MMC CMD(MOP)\n")
@@ -983,10 +983,10 @@ for scan in range(len(SCHED_Start_index)):
 
 
 
-		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CULLENT_TIME.year, CULLENT_TIME.month, CULLENT_TIME.day, CULLENT_TIME.hour, CULLENT_TIME.minute, CULLENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
+		start_file.write("EXECUTE ANT OFFSET(0,0) TIME_RANGE(%04d/%02d/%02d %02d:%02d:%02d - %04d/%02d/%02d %02d:%02d:%02d) TYPE(ON)\n" %(CURRENT_TIME.year, CURRENT_TIME.month, CURRENT_TIME.day, CURRENT_TIME.hour, CURRENT_TIME.minute, CURRENT_TIME.second, end_offset_time.year, end_offset_time.month, end_offset_time.day, end_offset_time.hour, end_offset_time.minute, end_offset_time.second))
 		start_file.write("WAIT ANT VLBI\n")
 		start_file.write("\n")
-		CULLENT_TIME = end_offset_time
+		CURRENT_TIME = end_offset_time
 
 start_file.write("WAIT ANT\n")
 start_file.write("WAIT MMC\n")
