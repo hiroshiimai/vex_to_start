@@ -18,7 +18,7 @@ Station_Name = Nb
 
 #---------- set start observation time ----------#
 #---------- .vexファイルに従う場合に使用 ----------#
-#start_time_flag = original_start
+start_time_flag = original_start
 #---------- 任意の時間で観測を開始する場合に使用 ----------#
 #start_time_flag = any_start
 #any_time = 2019y075d08h00m00s
@@ -60,9 +60,9 @@ start_file_name = sample.start
 #---------- "ファイル名_アンテナの名前_作成日"で作る場合 ----------#
 #device_file_flag = file_date
 #---------- 任意のファイル名で作成する場合 --------#
-device_file_flag = file_selected
-device_file_name = sample.ndevice
-dat_file_name = sample.dat
+#device_file_flag = file_selected
+#device_file_name = sample.ndevice
+#dat_file_name = sample.dat
 
 
 #---------- 1SCAN目追尾開始の為に必要なアンテナを動かす時間(s) ----------#

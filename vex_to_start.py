@@ -358,6 +358,8 @@ for i in range(len(SCHED_Start_index)):
 	Station_Name_ANT = "station=" + Station_Name
 	tmpSCHED = SCHED_TEXT.split(';')
 	for data in tmpSCHED:
+		if Station_Name_ANT in ''.join(data.split()):
+			SCHED_LIST[i][3] = ''.join(data.split())[8:]
 		if "scan" in ''.join(data.split())[0:5]:
 			SCHED_LIST.append([0, 0, 0, 0])
 		if "start=" in ''.join(data.split()):
@@ -373,8 +375,7 @@ for i in range(len(SCHED_Start_index)):
 		if "source1=" in ''.join(data.split()):
 			SCHED_LIST[i][2] = ''.join(data.split())[8:]
 			#print ''.join(data.split()).strip('source1=')
-		if Station_Name_ANT in ''.join(data.split()):
-			SCHED_LIST[i][3] = ''.join(data.split())[8:]
+
 			#print ''.join(data.split()).strip('station=Vm')
 
 #-------------------------------------------------#
@@ -544,7 +545,16 @@ counter = 0
 #SCHEDの名前からSOURCEを探索
 for scan in range(len(SCHED_Start_index)):
 #----------------------------------------------------------
+	if SCHED_LIST[scan][3] == 0:
+		print "#############################"
+		print "######## TIME ERR0R #########"
+		print "#        scan%d SKIP        #" %(scan+1)
+		print "#############################"
 
+		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+		start_file.write("#-------- TIME ERROR --------\n")
+		start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+		continue
 	#------------------------------------#
 	#---------- original start ----------#
 	#------------------------------------#
