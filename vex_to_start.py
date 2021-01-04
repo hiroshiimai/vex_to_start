@@ -546,14 +546,19 @@ counter = 0
 for scan in range(len(SCHED_Start_index)):
 #----------------------------------------------------------
 	if SCHED_LIST[scan][3] == 0:
-		print "#############################"
-		print "######## TIME ERR0R #########"
-		print "#        scan%d SKIP        #" %(scan+1)
-		print "#############################"
+                #print "#############################"
+                #print "######## TIME ERR0R #########"
+                #print "#        scan%d SKIP        #" %(scan+1)
+                #print "#############################"
+                print "#####################################"
+                print "# NRO 45 m will not join this scan. #"
+                print "#            scan%d SKIP            #" %(scan+1)
+                print "#####################################"
 
-		start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
-		start_file.write("#-------- TIME ERROR --------\n")
-		start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+                start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+                #start_file.write("#-------- TIME ERROR --------\n")
+                start_file.write("#-- NRO 45 m will not join this scan. --\n")
+                start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
 		continue
 	#------------------------------------#
 	#---------- original start ----------#
@@ -867,13 +872,15 @@ for scan in range(len(SCHED_Start_index)):
 
 		counter = 0
 		if time_plus_or_minus(critetia_time, start_offset_time) > 0:
-			print "#############################"
-			print "######## TIME ERR0R #########"
-			print "#        scan%d SKIP        #" %(scan+1)
-			print "#############################"
-			start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
-			start_file.write("#-------- TIME ERROR --------\n")
-			start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
+                        print "#############################"
+                        #print "######## TIME ERR0R #########"
+                        print "#      Invalid scan time    #"
+                        print "#        scan%d SKIP        #" %(scan+1)
+                        print "#############################"
+                        start_file.write("#-------- PARAMS for SKED%04d --------\n" %(scan+1))
+                        #start_file.write("#-------- TIME ERROR --------\n")
+                        start_file.write("#----- Invalid scan time ----\n")
+                        start_file.write("#-------- SKIP SKED%04d --------\n\n" %(scan+1))
 			continue
 		else:
 			counter += 1
